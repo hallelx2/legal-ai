@@ -1,11 +1,11 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 const links = [
-  { href: '/about', label: 'About Us' },
-  { href: '/products', label: 'Our Products' },
-  { href: '/contact', label: 'Contact Us' },
-  { href: '/faq', label: 'FAQ' },
-]
+  { href: "/about", label: "About Us" },
+  { href: "/products", label: "Our Products" },
+  { href: "/contact", label: "Contact Us" },
+  { href: "/faq", label: "FAQ" },
+];
 
 export default function SuggestedLinks() {
   return (
@@ -24,5 +24,5 @@ export default function SuggestedLinks() {
         ))}
       </ul>
     </div>
-  )
+  );
 }

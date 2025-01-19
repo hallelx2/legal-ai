@@ -23,7 +23,7 @@ export default function Home() {
                 </p>
                 <div className="mt-8 flex space-x-4">
                   <Link
-                    href="/signup"
+                    href="/dashboard"
                     className="bg-white text-teal-600 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-colors"
                   >
                     Get Started Free
