@@ -3,7 +3,15 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Agreement } from "@/types";
 
-// Fetch data
+// Define the params type for Next.js page
+type AgreementPageParams = {
+  params: {
+    id: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+// Fetch data function
 async function fetchAgreement(id: string): Promise<Agreement> {
   // Replace this with your actual API call
   return {
@@ -27,11 +35,10 @@ async function fetchAgreement(id: string): Promise<Agreement> {
   };
 }
 
-type AgreementViewProps = {
-  params: { id: string };
-};
-
-export default async function AgreementView({ params }: AgreementViewProps) {
+export default async function AgreementView({
+                                              params,
+                                              searchParams
+                                            }: AgreementPageParams) {
   const agreement = await fetchAgreement(params.id);
 
   return (
