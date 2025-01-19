@@ -1,125 +1,154 @@
-import { Metadata } from "next";
-import { Mail, Download, Share2, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Agreement } from "@/types";
+"use client";
 
-// Fetch data
-async function fetchAgreement(id: string): Promise<Agreement> {
-    // Replace this with your actual API call
-    return {
-        id,
-        title: "Non-Disclosure Agreement",
-        status: "completed",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        parties: ["Tech Corp", "Legal Solutions Inc"],
-        type: "NDA",
-        content: `THIS NON-DISCLOSURE AGREEMENT (this "Agreement") is made as of [DATE] by and between [PARTY 1] and [PARTY 2].
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
+import {
+    LayoutDashboard,
+    FileText,
+    Settings,
+    History,
+    Users,
+    Menu,
+    X,
+    LogOut,
+    ChevronLeft,
+    ChevronRight,
+} from "lucide-react";
 
-1. Confidential Information
-...
-
-2. Non-Disclosure
-...
-
-3. Term
-...`,
-    };
+// Define a type for menu items
+interface MenuItem {
+    icon: React.ElementType; // Icon component type
+    label: string;
+    path: string;
 }
 
-type AgreementViewProps = {
-    params: { id: string };
-};
+const Sidebar: React.FC = () => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const [isHovered, setIsHovered] = useState<boolean>(false);
+    const pathname = usePathname();
 
-export default async function AgreementView({ params }: AgreementViewProps) {
-    const agreement = await fetchAgreement(params.id);
+    const menuItems: MenuItem[] = [
+        { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+        { icon: FileText, label: "Agreements", path: "/dashboard/agreements" },
+        { icon: History, label: "History", path: "/dashboard/history" },
+        { icon: Users, label: "Contacts", path: "/dashboard/contacts" },
+        { icon: Settings, label: "Settings", path: "/dashboard/settings" },
+    ];
+
+    const toggleSidebar = (): void => setIsOpen(!isOpen);
+    const toggleCollapse = (): void => setIsCollapsed(!isCollapsed);
+
+    const handleLogout = async (): Promise<void> => {
+        await signOut({ callbackUrl: "/" });
+    };
+
+    const isRouteActive = (path: string): boolean => {
+        if (path === "/dashboard") {
+            return pathname === "/dashboard";
+        }
+        return pathname.startsWith(path);
+    };
+
+    const sidebarWidth: string = isCollapsed && !isHovered ? "w-16" : "w-64";
 
     return (
-        <div className="space-y-6">
-            <Button variant="secondary" onClick={() => window.history.back()}>
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                Back to Dashboard
-            </Button>
+        <>
+            {/* Mobile menu button */}
+            <button
+                onClick={toggleSidebar}
+                className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md"
+                aria-label="Toggle menu"
+            >
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
 
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-gray-900">{agreement.title}</h1>
-                <div className="flex space-x-3">
-                    <Button variant="secondary">
-                        <Mail className="h-4 w-4 mr-2" />
-                        Send for Signature
-                    </Button>
-                    <Button variant="secondary">
-                        <Download className="h-4 w-4 mr-2" />
-                        Download PDF
-                    </Button>
-                    <Button variant="secondary">
-                        <Share2 className="h-4 w-4 mr-2" />
-                        Share
-                    </Button>
+            {/* Overlay */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+                    onClick={toggleSidebar}
+                />
+            )}
+
+            {/* Sidebar */}
+            <div
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                className={`
+          fixed lg:static inset-y-0 left-0 z-40
+          transform ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0 transition-all duration-300 ease-in-out
+          ${sidebarWidth} bg-white h-full border-r border-gray-200
+          flex flex-col justify-between relative
+        `}
+            >
+                {/* Collapse Toggle Button */}
+                <button
+                    onClick={toggleCollapse}
+                    className="absolute -right-3 top-10 bg-white rounded-full p-1 border border-gray-200 hidden lg:block"
+                    aria-label="Toggle collapse"
+                >
+                    {isCollapsed ? (
+                        <ChevronRight className="h-4 w-4" />
+                    ) : (
+                        <ChevronLeft className="h-4 w-4" />
+                    )}
+                </button>
+
+                {/* Menu Items */}
+                <div className="p-4 space-y-1">
+                    {menuItems.map((item) => {
+                        const Icon = item.icon;
+                        const isActive = isRouteActive(item.path);
+
+                        return (
+                            <Link
+                                key={item.path}
+                                href={item.path}
+                                className={`flex items-center space-x-3 px-4 py-3 rounded-lg ${
+                                    isActive
+                                        ? "bg-teal-50 text-teal-600"
+                                        : "text-gray-600 hover:bg-gray-50"
+                                } ${isCollapsed && !isHovered ? "justify-center" : ""}`}
+                            >
+                                <Icon className="h-5 w-5 flex-shrink-0" />
+                                <span
+                                    className={`font-medium transition-all duration-300 ${
+                                        isCollapsed && !isHovered ? "hidden" : "block"
+                                    }`}
+                                >
+                  {item.label}
+                </span>
+                            </Link>
+                        );
+                    })}
+                </div>
+
+                {/* Logout Button */}
+                <div className="p-4 border-t border-gray-200">
+                    <button
+                        onClick={handleLogout}
+                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg w-full text-white bg-red-400 hover:bg-red-600 ${
+                            isCollapsed && !isHovered ? "justify-center" : ""
+                        }`}
+                        aria-label="Logout"
+                    >
+                        <LogOut className="h-5 w-5 flex-shrink-0" />
+                        <span
+                            className={`font-medium transition-all duration-300 ${
+                                isCollapsed && !isHovered ? "hidden" : "block"
+                            }`}
+                        >
+              Logout
+            </span>
+                    </button>
                 </div>
             </div>
-
-            <div className="grid grid-cols-3 gap-6">
-                <div className="col-span-2">
-                    <Card>
-                        <div className="p-6">
-              <pre className="whitespace-pre-wrap font-sans text-gray-800">
-                {agreement.content}
-              </pre>
-                        </div>
-                    </Card>
-                </div>
-
-                <div className="space-y-4">
-                    <Card>
-                        <div className="p-4">
-                            <h3 className="font-medium text-gray-900 mb-4">
-                                Agreement Details
-                            </h3>
-                            <dl className="space-y-2">
-                                <div>
-                                    <dt className="text-sm text-gray-500">Status</dt>
-                                    <dd className="text-sm font-medium text-gray-900">
-                                        {agreement.status}
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt className="text-sm text-gray-500">Created</dt>
-                                    <dd className="text-sm font-medium text-gray-900">
-                                        {new Date(agreement.createdAt).toLocaleDateString()}
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt className="text-sm text-gray-500">Last Updated</dt>
-                                    <dd className="text-sm font-medium text-gray-900">
-                                        {new Date(agreement.updatedAt).toLocaleDateString()}
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt className="text-sm text-gray-500">Type</dt>
-                                    <dd className="text-sm font-medium text-gray-900">
-                                        {agreement.type}
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </Card>
-
-                    <Card>
-                        <div className="p-4">
-                            <h3 className="font-medium text-gray-900 mb-4">Parties</h3>
-                            <ul className="space-y-2">
-                                {agreement.parties.map((party, index) => (
-                                    <li key={index} className="text-sm text-gray-600">
-                                        {party}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </Card>
-                </div>
-            </div>
-        </div>
+        </>
     );
-}
+};
+
+export default Sidebar;
