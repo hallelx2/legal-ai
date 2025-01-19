@@ -2,20 +2,39 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileText, FileType, File, Clipboard, FileLock, DollarSign, Calendar, Shield, Users, Briefcase, CheckCircle, Heart, ArrowLeft } from 'lucide-react';
+import {
+  FileText,
+  FileType,
+  File,
+  Clipboard,
+  FileLock,
+  DollarSign,
+  Calendar,
+  Shield,
+  Users,
+  Briefcase,
+  CheckCircle,
+  Heart,
+  ArrowLeft,
+} from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Dialog, DialogTitle, DialogContent, DialogActions } from "@/components/ui/Dialog"; // Assuming you're using a Dialog component for the modal
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@/components/ui/Dialog"; // Assuming you're using a Dialog component for the modal
 
 export default function CreateAgreement() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [newTemplate, setNewTemplate] = useState({
-    id: '',
-    title: '',
-    description: '',
-    icon: <FileText className="h-8 w-8" />
+    id: "",
+    title: "",
+    description: "",
+    icon: <FileText className="h-8 w-8" />,
   });
 
   const templates = [
@@ -152,7 +171,7 @@ export default function CreateAgreement() {
       icon: <Briefcase className="h-8 w-8" />,
     },
     // Include dynamically created template
-    ...newTemplate.id ? [newTemplate] : [],
+    ...(newTemplate.id ? [newTemplate] : []),
   ];
 
   const handleCreateTemplate = () => {
@@ -294,7 +313,9 @@ export default function CreateAgreement() {
                 type="text"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
                 value={newTemplate.title}
-                onChange={(e) => setNewTemplate({ ...newTemplate, title: e.target.value })}
+                onChange={(e) =>
+                  setNewTemplate({ ...newTemplate, title: e.target.value })
+                }
               />
             </div>
 
@@ -306,7 +327,12 @@ export default function CreateAgreement() {
                 type="text"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
                 value={newTemplate.description}
-                onChange={(e) => setNewTemplate({ ...newTemplate, description: e.target.value })}
+                onChange={(e) =>
+                  setNewTemplate({
+                    ...newTemplate,
+                    description: e.target.value,
+                  })
+                }
               />
             </div>
           </div>

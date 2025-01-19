@@ -2,18 +2,41 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { signUpSchema, SignUpFormData } from "@/schemas/signup";
 
 export default function SignUp() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle signup logic here
+  const onSubmit = async (data: SignUpFormData) => {
+    try {
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Registration failed");
+      }
+
+      // Redirect to sign in page after successful registration
+      router.push("/signin");
+    } catch (error) {
+      console.error("Registration error:", error);
+      // Handle error (you might want to show an error message to the user)
+    }
   };
 
   return (
@@ -34,28 +57,58 @@ export default function SignUp() {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <div>
               <label
-                htmlFor="name"
+                htmlFor="firstName"
                 className="block text-sm font-medium text-gray-700"
               >
-                Full Name
+                First Name
               </label>
               <div className="mt-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <User className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  className="pl-10 block w-full border border-gray-300 rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500"
-                  placeholder="John Doe"
+                  {...register("firstName")}
+                  className={`pl-10 block w-full border ${
+                    errors.firstName ? "border-red-500" : "border-gray-300"
+                  } rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500`}
+                  placeholder="John"
                 />
               </div>
+              {errors.firstName && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.firstName.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Last Name
+              </label>
+              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  {...register("lastName")}
+                  className={`pl-10 block w-full border ${
+                    errors.lastName ? "border-red-500" : "border-gray-300"
+                  } rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500`}
+                  placeholder="Doe"
+                />
+              </div>
+              {errors.lastName && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.lastName.message}
+                </p>
+              )}
             </div>
 
             <div>
@@ -70,14 +123,19 @@ export default function SignUp() {
                   <Mail className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="email"
-                  name="email"
+                  {...register("email")}
                   type="email"
-                  required
-                  className="pl-10 block w-full border border-gray-300 rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500"
+                  className={`pl-10 block w-full border ${
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  } rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500`}
                   placeholder="you@example.com"
                 />
               </div>
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             <div>
@@ -92,14 +150,19 @@ export default function SignUp() {
                   <Lock className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="password"
-                  name="password"
+                  {...register("password")}
                   type="password"
-                  required
-                  className="pl-10 block w-full border border-gray-300 rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500"
+                  className={`pl-10 block w-full border ${
+                    errors.password ? "border-red-500" : "border-gray-300"
+                  } rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500`}
                   placeholder="••••••••"
                 />
               </div>
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <div>
@@ -114,22 +177,30 @@ export default function SignUp() {
                   <Lock className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="confirmPassword"
-                  name="confirmPassword"
+                  {...register("confirmPassword")}
                   type="password"
-                  required
-                  className="pl-10 block w-full border border-gray-300 rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500"
+                  className={`pl-10 block w-full border ${
+                    errors.confirmPassword
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } rounded-lg py-3 text-gray-900 placeholder-gray-500 focus:ring-teal-500 focus:border-teal-500`}
                   placeholder="••••••••"
                 />
               </div>
+              {errors.confirmPassword && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
           </div>
 
           <button
             type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+            disabled={isSubmitting}
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Create Account
+            {isSubmitting ? "Creating Account..." : "Create Account"}
           </button>
         </form>
       </div>

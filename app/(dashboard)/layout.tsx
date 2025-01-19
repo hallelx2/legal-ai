@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Scale, Bell, User } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 export default function DashboardLayout({
   children,
@@ -48,7 +49,9 @@ export default function DashboardLayout({
       {/* Main Content */}
       <div className="pt-16 flex h-[calc(100vh-4rem)]">
         <Sidebar />
-        <main className="flex-1 overflow-auto p-8">{children}</main>
+        <main className="flex-1 overflow-auto p-8">
+          <ProtectedRoute>{children}</ProtectedRoute>
+        </main>
       </div>
     </div>
   );
