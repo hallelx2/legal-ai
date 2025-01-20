@@ -8,3 +8,6 @@ export async function getAuthSession() {
   }
   return session;
 }
+
+
+export const BASE_URL="https://ailegal.onrender.com/api";

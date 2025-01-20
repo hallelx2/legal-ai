@@ -28,98 +28,112 @@ async function fetchAgreement(id: string): Promise<Agreement> {
 }
 
 export default async function AgreementView({
-                                              params,
-                                            }: {
+  params,
+}: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const agreement = await fetchAgreement(id);
 
   return (
-      <div className="space-y-6">
-        <Button variant="secondary" onClick={() => window.history.back()}>
-          <ArrowLeft className="h-5 w-5 mr-2" />
-          Back to Dashboard
-        </Button>
+    <div className="space-y-6">
+      <Button variant="secondary" >
+        <ArrowLeft className="h-5 w-5 mr-2" />
+        Back to Dashboard
+      </Button>
 
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">{agreement.title}</h1>
-          <div className="flex space-x-3">
-            <Button variant="secondary">
-              <Mail className="h-4 w-4 mr-2" />
-              Send for Signature
-            </Button>
-            <Button variant="secondary">
-              <Download className="h-4 w-4 mr-2" />
-              Download PDF
-            </Button>
-            <Button variant="secondary">
-              <Share2 className="h-4 w-4 mr-2" />
-              Share
-            </Button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-6">
-          <div className="col-span-2">
-            <Card>
-              <div className="p-6">
-             <pre className="whitespace-pre-wrap font-sans text-gray-800">
-               {agreement.content}
-             </pre>
-              </div>
-            </Card>
-          </div>
-
-          <div className="space-y-4">
-            <Card>
-              <div className="p-4">
-                <h3 className="font-medium text-gray-900 mb-4">
-                  Agreement Details
-                </h3>
-                <dl className="space-y-2">
-                  <div>
-                    <dt className="text-sm text-gray-500">Status</dt>
-                    <dd className="text-sm font-medium text-gray-900">
-                      {agreement.status}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-gray-500">Created</dt>
-                    <dd className="text-sm font-medium text-gray-900">
-                      {new Date(agreement.createdAt).toLocaleDateString()}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-gray-500">Last Updated</dt>
-                    <dd className="text-sm font-medium text-gray-900">
-                      {new Date(agreement.updatedAt).toLocaleDateString()}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-gray-500">Type</dt>
-                    <dd className="text-sm font-medium text-gray-900">
-                      {agreement.type}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            </Card>
-
-            <Card>
-              <div className="p-4">
-                <h3 className="font-medium text-gray-900 mb-4">Parties</h3>
-                <ul className="space-y-2">
-                  {agreement.parties.map((party, index) => (
-                      <li key={index} className="text-sm text-gray-600">
-                        {party}
-                      </li>
-                  ))}
-                </ul>
-              </div>
-            </Card>
-          </div>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-900">{agreement.title}</h1>
+        <div className="flex space-x-3">
+          <Button variant="secondary">
+            <Mail className="h-4 w-4 mr-2" />
+            Send for Signature
+          </Button>
+          <Button variant="secondary">
+            <Download className="h-4 w-4 mr-2" />
+            Download PDF
+          </Button>
+          <Button variant="secondary">
+            <Share2 className="h-4 w-4 mr-2" />
+            Share
+          </Button>
         </div>
       </div>
+
+      <div className="grid grid-cols-3 gap-8">
+        <div className="col-span-2 space-y-4">
+          <Card>
+            <div className="p-6">
+              <pre className="whitespace-pre-wrap font-sans text-gray-800">
+                {agreement.content}
+              </pre>
+            </div>
+          </Card>
+          <div className="  w-full  space-y-2">
+          
+            {
+              agreement.parties.map((party) => {
+                return <div className=" flex w-full p-4 rounded-md shadow-md justify-between py-4">
+                  <p className=" text-slate-800">{party}</p>
+                  <span className=" text-slate-500">
+
+                    Signed
+                  </span>
+                </div>
+              })
+            }
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <Card>
+            <div className="p-4">
+              <h3 className="font-medium text-gray-900 mb-4">
+                Agreement Details
+              </h3>
+              <dl className="space-y-2">
+                <div>
+                  <dt className="text-sm text-gray-500">Status</dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {agreement.status}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-gray-500">Created</dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {new Date(agreement.createdAt).toLocaleDateString()}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-gray-500">Last Updated</dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {new Date(agreement.updatedAt).toLocaleDateString()}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-gray-500">Type</dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {agreement.type}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </Card>
+
+          <Card>
+            <div className="p-4">
+              <h3 className="font-medium text-gray-900 mb-4">Parties</h3>
+              <ul className="space-y-2">
+                {agreement.parties.map((party, index) => (
+                  <li key={index} className="text-sm text-gray-600">
+                    {party}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 }

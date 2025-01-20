@@ -4,13 +4,22 @@ import { FileText, Shield, Clock, Users, Check } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+/*  
+remove when done
+changed app color
+changed font to notosan
+added signed parties component to aggrement/[id]
+adding dark mode might take some time
+supabase file upload in lib
+i see youve stated the api routes, do add it to the project folder and push
+*/
 export default function Home() {
   return (
     <>
       <Header />
       <div className="flex flex-col min-h-screen">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-teal-500 to-blue-600 text-white pt-32 pb-20">
+        <section className="hero-background text-white pt-32 pb-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -24,7 +33,7 @@ export default function Home() {
                 <div className="mt-8 flex space-x-4">
                   <Link
                     href="/dashboard"
-                    className="bg-white text-teal-600 px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-colors"
+                    className="bg-white text-[var(--text-blue)] px-6 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-colors"
                   >
                     Get Started Free
                   </Link>
@@ -146,7 +155,7 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-teal-500 to-blue-600">
+        <section className="py-20 hero-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold text-white">
               Ready to Get Started?
@@ -156,7 +165,7 @@ export default function Home() {
             </p>
             <Link
               href="/signup"
-              className="mt-8 inline-block bg-white text-teal-600 px-8 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-colors"
+              className="mt-8 inline-block bg-white text-[var(--text-blue)] px-8 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-colors"
             >
               Start Free Trial
             </Link>

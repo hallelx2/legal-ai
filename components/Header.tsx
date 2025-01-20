@@ -15,17 +15,17 @@ export default function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/features"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-[var(--text-secondary)] hover:text-gray-900"
             >
               Features
             </Link>
-            <Link href="/pricing" className="text-gray-600 hover:text-gray-900">
+            <Link href="/pricing" className="text-[var(--text-secondary)] hover:text-gray-900">
               Pricing
             </Link>
-            <Link href="/about" className="text-gray-600 hover:text-gray-900">
+            <Link href="/about" className="text-[var(--text-secondary)] hover:text-gray-900">
               About
             </Link>
-            <Link href="/contact" className="text-gray-600 hover:text-gray-900">
+            <Link href="/contact" className="text-[var(--text-secondary)] hover:text-gray-900">
               Contact
             </Link>
           </nav>
@@ -36,7 +36,7 @@ export default function Header() {
             </Link>
             <Link
               href="/signup"
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+              className="bg-[var(--app-blue)] text-white px-4 py-2 rounded-md hover:bg-[var(--text-blue)] transition-colors"
             >
               Get Started
             </Link>

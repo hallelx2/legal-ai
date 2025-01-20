@@ -32,7 +32,7 @@ export default function Dashboard() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">My Agreements</h1>
         <Link href="/dashboard/agreements/new">
-          <Button variant="gradient">
+          <Button variant="docsign">
             <Plus className="h-5 w-5 mr-2" />
             New Agreement
           </Button>
