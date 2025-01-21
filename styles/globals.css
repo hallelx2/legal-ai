@@ -73,3 +73,15 @@
 .hero-background{
   background: var(--hero-background);
 }
+
+.rcb-chatbot-global {
+  font-family: "Noto Sans";
+  font-size: 14px !important;
+}
+
+@media screen and (max-width: 900px) {
+  .sidebar {
+    width: 0 !important;
+    display: none;
+  }
+}

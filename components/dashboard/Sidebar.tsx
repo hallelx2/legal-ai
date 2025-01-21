@@ -77,7 +77,7 @@ const Sidebar: React.FC = () => {
             <div
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                className={`
+                className={` sidebar
           fixed lg:static inset-y-0 left-0 z-40
           transform ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 transition-all duration-300 ease-in-out
