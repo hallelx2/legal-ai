@@ -34,7 +34,7 @@ export default function Settings() {
                 label="Company Name"
                 placeholder="Acme Inc."
               />
-              <Button type="submit" variant="primary">
+              <Button type="submit" variant="docsign">
                 Save Changes
               </Button>
             </form>

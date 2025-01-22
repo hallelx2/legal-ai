@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signUpSchema, SignUpFormData } from "@/schemas/signup";
+import { BASE_URL } from "@/lib/auth";
 
 export default function SignUp() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function SignUp() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      const response = await fetch("http://localhost:8000/auth/register", {
+      const response = await fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +42,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen hero-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white rounded-xl shadow-2xl p-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">
@@ -51,7 +52,7 @@ export default function SignUp() {
             Already have an account?{" "}
             <Link
               href="/signin"
-              className="text-teal-600 hover:text-teal-500 font-medium"
+              className="text-[var(--text-blue)] hover:text-indigo-500 font-medium"
             >
               Sign in
             </Link>
@@ -199,7 +200,7 @@ export default function SignUp() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[var(--text-blue)] to-blue-600 hover:from-[var(--text-blue)] hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? "Creating Account..." : "Create Account"}
           </button>

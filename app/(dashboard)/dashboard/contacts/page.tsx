@@ -31,7 +31,7 @@ export default function Contacts() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Contacts</h1>
-        <Button variant="gradient" onClick={() => setShowAddContact(true)}>
+        <Button variant="docsign" onClick={() => setShowAddContact(true)}>
           <UserPlus className="h-5 w-5 mr-2" />
           Add Contact
         </Button>

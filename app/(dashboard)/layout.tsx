@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Scale, Bell, User } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import Chatbot from "@/components/dashboard/Chatbot";
 
 export default function DashboardLayout({
   children,
@@ -13,6 +14,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -31,11 +34,10 @@ export default function DashboardLayout({
               </button>
               <Link
                 href="/dashboard/settings/profile"
-                className={`flex items-center space-x-2 text-gray-700 ${
-                  pathname === "/dashboard/settings/profile"
-                    ? "text-gray-900"
-                    : "hover:text-gray-900"
-                }`}
+                className={`flex items-center space-x-2 text-gray-700 ${pathname === "/dashboard/settings/profile"
+                  ? "text-gray-900"
+                  : "hover:text-gray-900"
+                  }`}
               >
                 <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
                   <User className="h-5 w-5" />
@@ -51,6 +53,9 @@ export default function DashboardLayout({
         <Sidebar />
         <main className="flex-1 overflow-auto p-8">
           <ProtectedRoute>{children}</ProtectedRoute>
+          
+
+          <Chatbot />
         </main>
       </div>
     </div>

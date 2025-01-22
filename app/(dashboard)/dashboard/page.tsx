@@ -10,6 +10,25 @@ import { Button } from "@/components/ui/Button";
 export default function Dashboard() {
   const router = useRouter();
 
+  const searchAgreements = (form:string)=> {
+    console.log(form)
+  }
+
+  const filterAgreements =(e:React.ChangeEvent<HTMLSelectElement>)=>{
+    e.preventDefault()
+  }
+
+  const debounce = (onChange: (form:string)=> any) => {
+    let timeout : NodeJS.Timeout;
+    return (e:React.ChangeEvent<HTMLInputElement>) => {
+      const form = e.currentTarget.value;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        onChange(form);
+      }, 1000);
+    };
+  };
+
   const agreements = [
     {
       id: "1",
@@ -32,7 +51,7 @@ export default function Dashboard() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">My Agreements</h1>
         <Link href="/dashboard/agreements/new">
-          <Button variant="gradient">
+          <Button variant="docsign">
             <Plus className="h-5 w-5 mr-2" />
             New Agreement
           </Button>
@@ -44,12 +63,15 @@ export default function Dashboard() {
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input
+            onChange={debounce((e)=> {
+              searchAgreements(e)
+            })}
               type="text"
               placeholder="Search agreements..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
-          <select className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-teal-500 focus:border-teal-500">
+          <select onChange={filterAgreements} className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-teal-500 focus:border-teal-500">
             <option value="">All Types</option>
             <option value="nda">NDA</option>
             <option value="contract">Contract</option>

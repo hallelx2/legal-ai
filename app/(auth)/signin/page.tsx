@@ -3,7 +3,7 @@ import SignInForm from "./SignInForm";
 
 export default function SignInPage() {
   return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen hero-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <Suspense
             fallback={
               <div className="max-w-md w-full bg-white rounded-xl shadow-2xl p-8">

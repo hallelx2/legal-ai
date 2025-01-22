@@ -31,7 +31,7 @@ export default function Agreements() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">All Agreements</h1>
-        <Button to="/dashboard/agreements/new" variant="gradient">
+        <Button to="/dashboard/agreements/new" variant="docsign">
           <Plus className="h-5 w-5 mr-2" />
           New Agreement
         </Button>

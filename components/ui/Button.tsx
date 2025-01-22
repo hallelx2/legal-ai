@@ -5,7 +5,7 @@ interface ButtonProps {
   children: React.ReactNode;
   to?: string;
   type?: "button" | "submit";
-  variant?: "primary" | "secondary" | "gradient";
+  variant?: "primary" | "secondary" | "gradient"|"docsign";
   className?: string;
   onClick?: () => void;
 }
@@ -26,6 +26,8 @@ export function Button({
     secondary: "border border-gray-300 text-gray-700 hover:bg-gray-50",
     gradient:
       "bg-gradient-to-r from-teal-500 to-blue-600 text-white hover:from-teal-600 hover:to-blue-700",
+    docsign:
+      "bg-gradient-to-r from-[var(--app-blue)] to-blue-600 text-white hover:to-[var(--app-blue)] hover:from-blue-700",
   };
 
   const styles = `${baseStyles} ${variantStyles[variant]} ${className}`;

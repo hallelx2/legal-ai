@@ -77,7 +77,7 @@ const Sidebar: React.FC = () => {
             <div
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                className={`
+                className={` sidebar
           fixed lg:static inset-y-0 left-0 z-40
           transform ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 transition-all duration-300 ease-in-out
@@ -110,7 +110,7 @@ const Sidebar: React.FC = () => {
                                 href={item.path}
                                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg ${
                                     isActive
-                                        ? "bg-teal-50 text-teal-600"
+                                        ? "bg-[#CBC2FF]/40 text-[var(--text-blue)]"
                                         : "text-gray-600 hover:bg-gray-50"
                                 } ${isCollapsed && !isHovered ? "justify-center" : ""}`}
                             >
