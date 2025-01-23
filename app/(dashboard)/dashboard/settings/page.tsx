@@ -54,7 +54,7 @@ export default function Settings() {
                     Connect your DocuSign account for e-signatures
                   </p>
                 </div>
-                <Button variant="secondary">Connect</Button>
+                <Button variant="docsign">Connect</Button>
               </div>
 
               <div className="flex items-center justify-between py-4 border-b">
@@ -64,7 +64,7 @@ export default function Settings() {
                     Connect Adobe Sign for document signing
                   </p>
                 </div>
-                <Button variant="secondary">Connect</Button>
+                <Button variant="docsign">Connect</Button>
               </div>
 
               <div className="flex items-center justify-between py-4">
@@ -74,7 +74,7 @@ export default function Settings() {
                     Use HelloSign for digital signatures
                   </p>
                 </div>
-                <Button variant="secondary">Connect</Button>
+                <Button variant="docsign">Connect</Button>
               </div>
             </div>
           </div>

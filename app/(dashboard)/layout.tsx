@@ -15,7 +15,7 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
 
-  
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -24,8 +24,8 @@ export default function DashboardLayout({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/dashboard" className="flex items-center space-x-2">
-              <Scale className="h-8 w-8 text-teal-600" />
-              <span className="text-xl font-bold text-gray-900">LegalAI</span>
+              <Scale className="h-8 w-8 text-[#4700b3]" />
+              <span className="text-xl font-bold text-[#4700b3]">LegalAI</span>
             </Link>
 
             <div className="flex items-center space-x-4">
@@ -52,8 +52,8 @@ export default function DashboardLayout({
       <div className="pt-16 flex h-[calc(100vh-4rem)]">
         <Sidebar />
         <main className="flex-1 overflow-auto p-8">
-          {/* <ProtectedRoute>{children}</ProtectedRoute> */}
-          {children}
+          <ProtectedRoute>{children}</ProtectedRoute>
+
 
           <Chatbot />
         </main>
