@@ -1,9 +1,53 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
 
 export default function Settings() {
+  const searchParams = useSearchParams()
+  const [code, setCode] = useState<string|null>(searchParams.get('code'));
+ 
+  
+
+  const getToken = async()=> {
+      const authoraisation = btoa(`${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}:${process.env.NEXT_PUBLIC_LEGAL_SECRET}`)
+
+      try {
+        console.log(code)
+        const response = await fetch(`https://account-d.docusign.com/oauth/token`, {
+          method:"POST",
+          mode:"cors",
+          headers: {
+            'Accept':' */*',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type':"application/json",
+            "Authorization": `Basic ZDk1MzdhZjgtMTU3Ni00Y2RmLWJiMzktMzBhZjlmMzAxZjNlOmZlNmNjNzE4LWRjNzMtNDljYy05NDU1LWE5ZTUxYTAzYjA0Mw==`
+          },
+          body:JSON.stringify({
+            "grant_type":"authorization_code",
+            "code": code
+          })
+        })
+       console.log(response)
+
+        const token = await response.json()
+        console.log(token)
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  useEffect(() => {
+    if(code){
+      getToken()
+    }
+  }, [])
+  
+  
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
@@ -54,7 +98,7 @@ export default function Settings() {
                     Connect your DocuSign account for e-signatures
                   </p>
                 </div>
-                <Button variant="docsign">Connect</Button>
+                <Link href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=http://localhost:3000/dashboard/settings`}> <Button variant="docsign">Connect</Button> </Link> 
               </div>
 
               <div className="flex items-center justify-between py-4 border-b">

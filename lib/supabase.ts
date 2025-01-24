@@ -17,6 +17,3 @@ export async function uploadFile({path, file, bucket}:any) {
       // Handle success
     }
   }
-
-// npm install @supabase/supabase-js
-// npm install @supabase/ssr

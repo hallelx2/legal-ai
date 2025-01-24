@@ -53,8 +53,6 @@ export default function DashboardLayout({
         <Sidebar />
         <main className="flex-1 overflow-auto p-8">
           <ProtectedRoute>{children}</ProtectedRoute>
-
-
           <Chatbot />
         </main>
       </div>
