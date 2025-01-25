@@ -4,43 +4,33 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useSignatureAuth } from "@/components/auth/SignatureAuth";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 
 export default function Settings() {
   const searchParams = useSearchParams()
   const [code, setCode] = useState<string|null>(searchParams.get('code'));
   const  {data} = useSession()
+  const {tokens, getToken} = useSignatureAuth()
+  const router = useRouter()
+  const pathname  = usePathname()
+  const [isLoading, setLoading] = useState<boolean>(false)
   
 
-  const getToken = async()=> {
-      
-
-      try {
-        console.log(code)
-        const response = await fetch(`http://localhost:8000/docusign/create`, {
-          method:"POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body:JSON.stringify({
-            "code": code,
-            "user_id":data?.user.id
-          })
-        })
-       console.log(response)
-
-        const token = await response.json()
-        console.log(token)
-      } catch (error) {
-        console.log(error)
-      }
-  }
+  
 
   useEffect(() => {
-    if(code){
-      getToken()
+    console.log(tokens)
+    if(code && !tokens){
+      setLoading(true)
+      getToken(code, data?.user.id!).then(()=>{
+        router.push(pathname)
+        setLoading(false)
+      })
     }
   }, [])
   
@@ -95,7 +85,7 @@ export default function Settings() {
                     Connect your DocuSign account for e-signatures
                   </p>
                 </div>
-                <Link href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=http://localhost:3000/dashboard/settings`}> <Button variant="docsign">Connect</Button> </Link> 
+                <Link href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=http://localhost:3000/dashboard/settings`}> <Button variant="docsign" className={cn("", tokens? "bg-green-500 border":"bg-green-500 border")} >{isLoading ? "Loading": tokens? "Connected":"Connect"}</Button> </Link> 
               </div>
 
               <div className="flex items-center justify-between py-4 border-b">
