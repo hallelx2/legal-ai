@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { getAccessToken } from "@/lib/auth";
+import { useConnection } from "@/components/auth/Connections";
 
 
 export default function Settings() {
@@ -18,6 +19,7 @@ export default function Settings() {
   const router = useRouter()
   const pathname = usePathname()
   const [isLoading, setLoading] = useState<boolean>(false)
+  const {isLoading:connectionLoading, isDocusignConnected, getTokens} = useConnection()
 
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export default function Settings() {
       getAccessToken(code, data?.user.id!)
       // set status from here
     }
+    
   }, [])
 
 
@@ -78,11 +81,14 @@ export default function Settings() {
                     Connect your DocuSign account for e-signatures
                   </p>
                 </div>
-                <Link
+                {
+                  !isDocusignConnected? <Link
+
                   href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=http://localhost:3000/dashboard/settings`}>
                   <Button variant="docsign"  >
                     Connect</Button>
-                </Link>
+                </Link>: <Button variant="success">Connected</Button>
+                }
               </div>
 
               <div className="flex items-center justify-between py-4 border-b">
