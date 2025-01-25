@@ -5,31 +5,28 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 
 export default function Settings() {
   const searchParams = useSearchParams()
   const [code, setCode] = useState<string|null>(searchParams.get('code'));
- 
+  const  {data} = useSession()
   
 
   const getToken = async()=> {
-      const authoraisation = btoa(`${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}:${process.env.NEXT_PUBLIC_LEGAL_SECRET}`)
+      
 
       try {
         console.log(code)
-        const response = await fetch(`https://account-d.docusign.com/oauth/token`, {
+        const response = await fetch(`http://localhost:8000/docusign/create`, {
           method:"POST",
-          mode:"cors",
           headers: {
-            'Accept':' */*',
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type':"application/json",
-            "Authorization": `Basic ZDk1MzdhZjgtMTU3Ni00Y2RmLWJiMzktMzBhZjlmMzAxZjNlOmZlNmNjNzE4LWRjNzMtNDljYy05NDU1LWE5ZTUxYTAzYjA0Mw==`
+            "Content-Type": "application/json",
           },
           body:JSON.stringify({
-            "grant_type":"authorization_code",
-            "code": code
+            "code": code,
+            "user_id":data?.user.id
           })
         })
        console.log(response)
