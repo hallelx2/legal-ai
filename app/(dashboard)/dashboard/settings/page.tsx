@@ -6,35 +6,28 @@ import { Input } from "@/components/ui/Input";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useSignatureAuth } from "@/components/auth/SignatureAuth";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { getAccessToken } from "@/lib/auth";
 
 
 export default function Settings() {
   const searchParams = useSearchParams()
-  const [code, setCode] = useState<string|null>(searchParams.get('code'));
-  const  {data} = useSession()
-  const {tokens, getToken} = useSignatureAuth()
+  const [code, setCode] = useState<string | null>(searchParams.get('code'));
+  const { data } = useSession()
   const router = useRouter()
-  const pathname  = usePathname()
+  const pathname = usePathname()
   const [isLoading, setLoading] = useState<boolean>(false)
-  
 
-  
 
   useEffect(() => {
-    console.log(tokens)
-    if(code && !tokens){
-      setLoading(true)
-      getToken(code, data?.user.id!).then(()=>{
-        router.push(pathname)
-        setLoading(false)
-      })
+    if(code){
+      getAccessToken(code, data?.user.id!)
+      // set status from here
     }
   }, [])
-  
-  
+
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
@@ -85,7 +78,11 @@ export default function Settings() {
                     Connect your DocuSign account for e-signatures
                   </p>
                 </div>
-                <Link href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=http://localhost:3000/dashboard/settings`}> <Button variant="docsign" className={cn("", tokens? "bg-green-500 border":"bg-green-500 border")} >{isLoading ? "Loading": tokens? "Connected":"Connect"}</Button> </Link> 
+                <Link
+                  href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=http://localhost:3000/dashboard/settings`}>
+                  <Button variant="docsign"  >
+                    Connect</Button>
+                </Link>
               </div>
 
               <div className="flex items-center justify-between py-4 border-b">

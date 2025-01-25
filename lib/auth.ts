@@ -13,3 +13,21 @@ export async function getAuthSession() {
 export const BASE_URL="http://localhost:8000";
 
 
+export const getAccessToken =async (code: string, id: string)=>{
+  try {
+        const response = await fetch(`http://localhost:8000/docusign/create`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "code": code,
+                "user_id": id
+            })
+        })
+       return await response.json()
+    } catch (error) {
+        console.log(error)
+        return {error}
+    }
+}
