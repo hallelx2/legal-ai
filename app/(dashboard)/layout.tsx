@@ -15,8 +15,6 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
 
-
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -34,10 +32,11 @@ export default function DashboardLayout({
               </button>
               <Link
                 href="/dashboard/settings/profile"
-                className={`flex items-center space-x-2 text-gray-700 ${pathname === "/dashboard/settings/profile"
-                  ? "text-gray-900"
-                  : "hover:text-gray-900"
-                  }`}
+                className={`flex items-center space-x-2 text-gray-700 ${
+                  pathname === "/dashboard/settings/profile"
+                    ? "text-gray-900"
+                    : "hover:text-gray-900"
+                }`}
               >
                 <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
                   <User className="h-5 w-5" />
@@ -53,7 +52,6 @@ export default function DashboardLayout({
         <Sidebar />
         <main className="flex-1 overflow-auto p-8">
           <ProtectedRoute>{children}</ProtectedRoute>
-
 
           <Chatbot />
         </main>

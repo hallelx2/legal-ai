@@ -9,5 +9,4 @@ export async function getAuthSession() {
   return session;
 }
 
-
-export const BASE_URL="https://ailegal.onrender.com/api";
+export const BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL as string;

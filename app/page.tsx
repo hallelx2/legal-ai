@@ -4,7 +4,7 @@ import { FileText, Shield, Clock, Users, Check } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-/*  
+/*
 remove when done
 changed app color
 changed font to notosan
@@ -71,19 +71,21 @@ export default function Home() {
             <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  icon: <FileText className="h-8 w-8 text-teal-600" />,
+                  icon: (
+                    <FileText className="h-8 w-8 text-[var(--text-blue)]" />
+                  ),
                   title: "AI-Powered Generation",
                   description:
                     "Create custom legal agreements in minutes using advanced AI technology",
                 },
                 {
-                  icon: <Shield className="h-8 w-8 text-teal-600" />,
+                  icon: <Shield className="h-8 w-8 text-[var(--text-blue)]" />,
                   title: "Legal Compliance",
                   description:
                     "Ensure your documents meet all legal requirements and standards",
                 },
                 {
-                  icon: <Clock className="h-8 w-8 text-teal-600" />,
+                  icon: <Clock className="h-8 w-8 text-[var(--text-blue)]" />,
                   title: "Quick Turnaround",
                   description:
                     "Get your documents ready in minutes, not days or weeks",

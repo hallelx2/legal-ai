@@ -1,187 +1,231 @@
 "use client";
-
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  FileText,
-  FileType,
-  File,
-  Clipboard,
-  FileLock,
-  DollarSign,
-  Calendar,
-  Shield,
-  Users,
-  Briefcase,
-  CheckCircle,
-  Heart,
-  ArrowLeft,
-} from "lucide-react";
+import CustomTemplateModal from "@/components/dashboard/templates/CreateTemplateModal";
+import TemplateList from "@/components/dashboard/templates/TemplateList";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@/components/ui/Dialog"; // Assuming you're using a Dialog component for the modal
+  SignatureLocation,
+  Template,
+  TemplateVariable,
+} from "@/types/template";
+import { ArrowLeft, Plus, AlertCircle, UserCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
+import { useCreateAgreement } from "@/hooks/useAgreements";
 
 export default function CreateAgreement() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [showModal, setShowModal] = useState(false);
-  const [newTemplate, setNewTemplate] = useState({
-    id: "",
-    title: "",
-    description: "",
-    icon: <FileText className="h-8 w-8" />,
-  });
+  const [showCustomTemplate, setShowCustomTemplate] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
+    null,
+  );
+  const [formData, setFormData] = useState<Record<string, any>>({});
+  const createAgreementMutation = useCreateAgreement();
+  const [selectedSignatureLocations, setSelectedSignatureLocations] = useState<
+    SignatureLocation[]
+  >([]);
 
-  const templates = [
-    {
-      id: "nda",
-      title: "Non-Disclosure Agreement",
-      description: "Protect your confidential information",
-      icon: <FileText className="h-8 w-8" />,
-    },
-    {
-      id: "service",
-      title: "Service Agreement",
-      description: "Define service terms and conditions",
-      icon: <FileType className="h-8 w-8" />,
-    },
-    {
-      id: "employment",
-      title: "Employment Contract",
-      description: "Establish terms of employment",
-      icon: <Users className="h-8 w-8" />,
-    },
-    {
-      id: "partnership",
-      title: "Partnership Agreement",
-      description: "Formalize the terms of a partnership",
-      icon: <Briefcase className="h-8 w-8" />,
-    },
-    {
-      id: "loan",
-      title: "Loan Agreement",
-      description: "Outline terms for loan agreements",
-      icon: <DollarSign className="h-8 w-8" />,
-    },
-    {
-      id: "lease",
-      title: "Lease Agreement",
-      description: "Define rental property terms",
-      icon: <File className="h-8 w-8" />,
-    },
-    {
-      id: "confidentiality",
-      title: "Confidentiality Agreement",
-      description: "Ensure sensitive information stays protected",
-      icon: <FileLock className="h-8 w-8" />,
-    },
-    {
-      id: "nda-temporary",
-      title: "Temporary NDA",
-      description: "Protect temporary project-related information",
-      icon: <Clipboard className="h-8 w-8" />,
-    },
-    {
-      id: "warranty",
-      title: "Warranty Agreement",
-      description: "Define product or service warranty terms",
-      icon: <CheckCircle className="h-8 w-8" />,
-    },
-    {
-      id: "event",
-      title: "Event Agreement",
-      description: "Set terms for event planning and coordination",
-      icon: <Calendar className="h-8 w-8" />,
-    },
-    {
-      id: "sponsorship",
-      title: "Sponsorship Agreement",
-      description: "Outline sponsorship terms for events or projects",
-      icon: <Shield className="h-8 w-8" />,
-    },
-    {
-      id: "sales",
-      title: "Sales Agreement",
-      description: "Document terms of sales transactions",
-      icon: <DollarSign className="h-8 w-8" />,
-    },
-    {
-      id: "marriage",
-      title: "Marriage Contract",
-      description: "Set legal agreements for marriage",
-      icon: <Heart className="h-8 w-8" />,
-    },
-    {
-      id: "confidentiality-medical",
-      title: "Medical Confidentiality Agreement",
-      description: "Ensure patient confidentiality and protection",
-      icon: <FileLock className="h-8 w-8" />,
-    },
-    {
-      id: "purchase",
-      title: "Purchase Agreement",
-      description: "Formalize terms of purchase transactions",
-      icon: <FileType className="h-8 w-8" />,
-    },
-    {
-      id: "nda-employee",
-      title: "Employee NDA",
-      description: "Ensure confidentiality for employees",
-      icon: <FileText className="h-8 w-8" />,
-    },
-    {
-      id: "franchise",
-      title: "Franchise Agreement",
-      description: "Outline the relationship between franchisor and franchisee",
-      icon: <Briefcase className="h-8 w-8" />,
-    },
-    {
-      id: "affiliate",
-      title: "Affiliate Agreement",
-      description: "Define terms for affiliate marketing partnerships",
-      icon: <Users className="h-8 w-8" />,
-    },
-    {
-      id: "consulting",
-      title: "Consulting Agreement",
-      description: "Set terms for consulting services",
-      icon: <FileText className="h-8 w-8" />,
-    },
-    {
-      id: "noncompete",
-      title: "Non-Compete Agreement",
-      description: "Ensure no competition with former employers",
-      icon: <Shield className="h-8 w-8" />,
-    },
-    {
-      id: "intellectual-property",
-      title: "Intellectual Property Agreement",
-      description: "Clarify ownership of intellectual property",
-      icon: <FileLock className="h-8 w-8" />,
-    },
-    {
-      id: "joint-venture",
-      title: "Joint Venture Agreement",
-      description: "Define terms of a joint business venture",
-      icon: <Briefcase className="h-8 w-8" />,
-    },
-    // Include dynamically created template
-    ...(newTemplate.id ? [newTemplate] : []),
-  ];
+  const handleCreateAgreement = (formData: Record<string, any>) => {
+    // If no template is selected, return early
+    if (!selectedTemplate) return;
 
-  const handleCreateTemplate = () => {
-    setShowModal(true);
+    // Transform the form data into the backend API structure
+    const apiStructure = {
+        templateId: selectedTemplate.id,
+        sections: selectedTemplate.sections.map((section) => ({
+          sectionId: section.id,
+          variables: section.variables.map((variable) => ({
+            id: variable.id,
+            value: formData[variable.id] ?? "",
+          })),
+        })),
+        signatureLocations: selectedSignatureLocations.map((location) => ({
+          role: location.role,
+          email: location.email,
+          page: typeof location.page === 'string' ? location.page : Number(location.page),
+          x: Number(location.x),
+          y: Number(location.y),
+          required: location.required,
+        })),
+      };
+
+    createAgreementMutation.mutate(apiStructure);
+
+    // Redirect to agreements page after creating agreement
+    router.push("/dashboard/agreements");
   };
 
-  const handleSaveTemplate = () => {
-    // Here, we would ideally save the new template data into a state or backend
-    setShowModal(false);
-    setStep(1);
+  const handleSignatureLocationSelect = (location: SignatureLocation) => {
+    // Check if this location is already selected
+    const existingLocationIndex = selectedSignatureLocations.findIndex(
+      (sl) => sl.role === location.role,
+    );
+
+    if (existingLocationIndex > -1) {
+      // Replace existing location
+      const updatedLocations = [...selectedSignatureLocations];
+      updatedLocations[existingLocationIndex] = location;
+      setSelectedSignatureLocations(updatedLocations);
+    } else {
+      // Add new location
+      setSelectedSignatureLocations((prev) => [...prev, location]);
+    }
+  };
+
+  const renderSignatureLocationSelection = () => {
+    if (!selectedTemplate || !selectedTemplate.defaultSignatureLocations.length)
+      return null;
+    return (
+      <div className="border border-gray-200 rounded-lg p-6 mt-6">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">
+          Signature Locations
+        </h3>
+        <div className="space-y-4">
+          {selectedTemplate.defaultSignatureLocations.map((location) => (
+            <div
+              key={location.role}
+              className="flex items-center justify-between p-3 border rounded-md"
+            >
+              <div className="flex items-center space-x-3">
+                <UserCircle className="h-6 w-6 text-gray-500" />
+                <div>
+                  <p className="font-medium">{location.role}</p>
+                  <p className="text-sm text-gray-500">
+                    Page: {location.page}, Position: ({location.x}, {location.y}
+                    )
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="secondary"
+                //   size="sm"
+                onClick={() => {
+                  const email =
+                    prompt(`Enter email for ${location.role}:`) || "";
+                  handleSignatureLocationSelect({
+                    ...location,
+                    email,
+                    required: true,
+                  });
+                }}
+              >
+                Add Signer
+              </Button>
+            </div>
+          ))}
+        </div>
+        {selectedSignatureLocations.length > 0 && (
+          <div className="mt-4">
+            <h4 className="text-md font-medium mb-2">Selected Signers</h4>
+            {selectedSignatureLocations.map((location) => (
+              <Badge
+                key={location.role}
+                variant="secondary"
+                className="mr-2 mb-2"
+              >
+                {location.role}: {location.email}
+              </Badge>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const handleTemplateSelect = (template: Template) => {
+    setSelectedTemplate(template);
+    setStep(2);
+
+    // Initialize form data with empty values for all variables
+    const initialData: Record<string, any> = {};
+    template.sections.forEach((section) => {
+      section.variables.forEach((variable) => {
+        initialData[variable.id] = variable.type === "boolean" ? false : "";
+      });
+    });
+    setFormData(initialData);
+  };
+
+  const handleInputChange = (variableId: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [variableId]: value,
+    }));
+  };
+
+  const renderInput = (variable: TemplateVariable) => {
+    switch (variable.type) {
+      case "boolean":
+        return (
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id={variable.id}
+              checked={formData[variable.id] || false}
+              onChange={(e) => handleInputChange(variable.id, e.target.checked)}
+              className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+            />
+            <label htmlFor={variable.id} className="text-sm text-gray-600">
+              {variable.description}
+            </label>
+          </div>
+        );
+
+      case "number":
+        return (
+          <input
+            type="number"
+            value={formData[variable.id] || ""}
+            onChange={(e) => handleInputChange(variable.id, e.target.value)}
+            min={variable.validation?.min}
+            max={
+              variable.validation?.max
+                ? Number(variable.validation.max)
+                : undefined
+            }
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+            placeholder={variable.description}
+            required={variable.required}
+          />
+        );
+
+      case "date":
+        return (
+          <input
+            type="date"
+            value={formData[variable.id] || ""}
+            onChange={(e) => handleInputChange(variable.id, e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+            required={variable.required}
+          />
+        );
+
+      case "array":
+        return (
+          <textarea
+            value={formData[variable.id] || ""}
+            onChange={(e) => handleInputChange(variable.id, e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+            placeholder="Enter items separated by commas"
+            required={variable.required}
+            rows={3}
+          />
+        );
+
+      default:
+        return (
+          <input
+            type="text"
+            value={formData[variable.id] || ""}
+            onChange={(e) => handleInputChange(variable.id, e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+            placeholder={variable.description}
+            required={variable.required}
+          />
+        );
+    }
   };
 
   return (
@@ -189,10 +233,10 @@ export default function CreateAgreement() {
       <Button
         variant="secondary"
         className="mb-6"
-        onClick={() => router.push("/dashboard")}
+        onClick={() => router.push("/dashboard/agreements")}
       >
         <ArrowLeft className="h-5 w-5 mr-2" />
-        Back to Dashboard
+        Back to Agreements
       </Button>
 
       <Card>
@@ -203,149 +247,116 @@ export default function CreateAgreement() {
 
           {step === 1 && (
             <div className="mt-6">
-              <h2 className="text-lg font-medium text-gray-900">
-                Choose a Template
-              </h2>
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {templates.map((template) => (
-                  <button
-                    key={template.id}
-                    onClick={() => setStep(2)}
-                    className="p-6 border-2 border-gray-200 rounded-lg hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
-                  >
-                    <div className="text-teal-600">{template.icon}</div>
-                    <h3 className="mt-4 text-lg font-medium text-gray-900">
-                      {template.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-gray-600">
-                      {template.description}
-                    </p>
-                  </button>
-                ))}
-                <button
-                  onClick={handleCreateTemplate}
-                  className="p-6 border-2 border-gray-200 rounded-lg hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Choose a Template
+                </h2>
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowCustomTemplate(true)}
                 >
-                  <div className="text-teal-600">
-                    <FileText className="h-8 w-8" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-medium text-gray-900">
-                    Create Custom Template
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-600">
-                    Create your own agreement template
-                  </p>
-                </button>
+                  <Plus className="h-5 w-5 mr-2" />
+                  Custom Template
+                </Button>
               </div>
+              <TemplateList onSelect={handleTemplateSelect} />
             </div>
           )}
 
-          {step === 2 && (
+          {step === 2 && selectedTemplate && (
             <div className="mt-6">
-              <h2 className="text-lg font-medium text-gray-900">
-                Customize Agreement
-              </h2>
-              <div className="mt-4 space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Agreement Title
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
-                  />
-                </div>
+              <div className="mb-6">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Customize {selectedTemplate.name}
+                </h2>
+                <p className="mt-2 text-sm text-gray-600">
+                  {selectedTemplate.description}
+                </p>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Parties Involved
-                  </label>
-                  <div className="mt-1 space-y-4">
-                    <input
-                      type="text"
-                      placeholder="Party 1 (Your Company)"
-                      className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Party 2"
-                      className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
-                    />
-                  </div>
-                </div>
+                {selectedTemplate.metadata.jurisdiction && (
+                  <Badge variant="secondary" className="mt-2">
+                    Jurisdiction: {selectedTemplate.metadata.jurisdiction}
+                  </Badge>
+                )}
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Agreement Terms
-                  </label>
-                  <textarea
-                    rows={6}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
-                  />
-                </div>
+              <form className="space-y-8">
+                {selectedTemplate.sections
+                  .sort((a, b) => a.order - b.order)
+                  .map((section) => (
+                    <div
+                      key={section.id}
+                      className="border border-gray-200 rounded-lg p-6"
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-medium text-gray-900">
+                            {section.title}
+                            {section.required && (
+                              <span className="text-red-500 ml-1">*</span>
+                            )}
+                          </h3>
+                          <p className="mt-1 text-sm text-gray-500">
+                            {section.aiPrompt}
+                          </p>
+                        </div>
+                        {section.required && (
+                          <Badge variant="warning" className="ml-2">
+                            Required
+                          </Badge>
+                        )}
+                      </div>
+
+                      <div className="space-y-4">
+                        {section.variables.map((variable) => (
+                          <div key={variable.id}>
+                            <label className="block text-sm font-medium text-gray-700">
+                              {variable.name}
+                              {variable.required && (
+                                <span className="text-red-500 ml-1">*</span>
+                              )}
+                            </label>
+                            {renderInput(variable)}
+                            {variable.validation?.pattern && (
+                              <div className="mt-1 flex items-center text-sm text-gray-500">
+                                <AlertCircle className="h-4 w-4 mr-1" />
+                                Format required: {variable.validation.pattern}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+
+                {renderSignatureLocationSelection()}
 
                 <div className="flex justify-end space-x-4">
                   <Button variant="secondary" onClick={() => setStep(1)}>
                     Back
                   </Button>
                   <Button
-                    variant="gradient"
-                    onClick={() => router.push("/dashboard/agreements/1")}
+                    variant="docsign"
+                    onClick={() => handleCreateAgreement(formData)}
+                    disabled={
+                      createAgreementMutation.isPending ||
+                      selectedSignatureLocations.length === 0
+                    }
                   >
                     Generate Agreement
                   </Button>
                 </div>
-              </div>
+              </form>
             </div>
           )}
         </div>
       </Card>
 
-      <Dialog open={showModal} onClose={() => setShowModal(false)}>
-        <DialogTitle>Create a Custom Template</DialogTitle>
-        <DialogContent>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Template Title
-              </label>
-              <input
-                type="text"
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
-                value={newTemplate.title}
-                onChange={(e) =>
-                  setNewTemplate({ ...newTemplate, title: e.target.value })
-                }
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Template Description
-              </label>
-              <input
-                type="text"
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
-                value={newTemplate.description}
-                onChange={(e) =>
-                  setNewTemplate({
-                    ...newTemplate,
-                    description: e.target.value,
-                  })
-                }
-              />
-            </div>
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="gradient" onClick={handleSaveTemplate}>
-            Save Template
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <CustomTemplateModal
+        isOpen={showCustomTemplate}
+        onClose={() => setShowCustomTemplate(false)}
+        onSave={() => {}}
+      />
     </div>
   );
 }

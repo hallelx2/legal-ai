@@ -1,6 +1,7 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { LucideIcon } from "lucide-react";
 
+// Extend the existing InputProps interface to include onChange
 interface InputProps {
   id: string;
   name: string;
@@ -10,6 +11,10 @@ interface InputProps {
   required?: boolean;
   icon?: LucideIcon;
   error?: string;
+  value?: string;
+  // Add onChange handler
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }
 
 export function Input({
@@ -21,6 +26,9 @@ export function Input({
   required = false,
   icon: Icon,
   error,
+  value,
+  // Add onChange to the destructured props
+  onChange,
 }: InputProps) {
   return (
     <div>
@@ -40,12 +48,16 @@ export function Input({
           required={required}
           className={`
             ${Icon ? "pl-10" : "pl-3"}
-            block w-full border border-gray-300 rounded-lg py-3 
-            text-gray-900 placeholder-gray-500 
+            block w-full border border-gray-300 rounded-lg py-3
+            text-gray-900 placeholder-gray-500
             focus:ring-teal-500 focus:border-teal-500
             ${error ? "border-red-500" : ""}
           `}
           placeholder={placeholder}
+          // Add value prop for controlled component
+          value={value}
+          // Add onChange handler
+          onChange={onChange}
         />
       </div>
       {error && <p className="mt-1 text-sm text-red-600">{error}</p>}

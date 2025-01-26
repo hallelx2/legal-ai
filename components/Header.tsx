@@ -19,13 +19,22 @@ export default function Header() {
             >
               Features
             </Link>
-            <Link href="/pricing" className="text-[var(--text-secondary)] hover:text-gray-900">
+            <Link
+              href="/pricing"
+              className="text-[var(--text-secondary)] hover:text-gray-900"
+            >
               Pricing
             </Link>
-            <Link href="/about" className="text-[var(--text-secondary)] hover:text-gray-900">
+            <Link
+              href="/about"
+              className="text-[var(--text-secondary)] hover:text-gray-900"
+            >
               About
             </Link>
-            <Link href="/contact" className="text-[var(--text-secondary)] hover:text-gray-900">
+            <Link
+              href="/contact"
+              className="text-[var(--text-secondary)] hover:text-gray-900"
+            >
               Contact
             </Link>
           </nav>

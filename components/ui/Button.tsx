@@ -5,9 +5,10 @@ interface ButtonProps {
   children: React.ReactNode;
   to?: string;
   type?: "button" | "submit";
-  variant?: "primary" | "secondary" | "gradient"|"docsign";
+  variant?: "primary" | "secondary" | "gradient" | "docsign";
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export function Button({
