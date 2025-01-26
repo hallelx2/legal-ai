@@ -17,7 +17,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-// Define a type for menu items
+// Define a type for menu itemsa
 interface MenuItem {
   icon: React.ElementType; // Icon component type
   label: string;

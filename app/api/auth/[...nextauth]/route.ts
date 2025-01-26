@@ -12,7 +12,7 @@ const handler = NextAuth({
       async authorize(credentials) {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_LOCAL_API_URL}auth/login`,
+            `${process.env.BACKEND_URL}/auth/login`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -53,7 +53,7 @@ const handler = NextAuth({
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
         token.email = user.email;
-        token.sub = user.id; // NextAuth uses 'sub' for the user ID
+        token.sub = user.id;
       }
       return token;
     },
