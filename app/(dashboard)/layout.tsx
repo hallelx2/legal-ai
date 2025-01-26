@@ -7,6 +7,8 @@ import { Scale, Bell, User } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Chatbot from "@/components/dashboard/Chatbot";
+import { ConnectionProvider } from "@/components/auth/Connections";
+
 
 export default function DashboardLayout({
   children,
@@ -51,7 +53,12 @@ export default function DashboardLayout({
       <div className="pt-16 flex h-[calc(100vh-4rem)]">
         <Sidebar />
         <main className="flex-1 overflow-auto p-8">
-          <ProtectedRoute>{children}</ProtectedRoute>
+
+          <ProtectedRoute>
+            <ConnectionProvider>
+            {children}
+            </ConnectionProvider>
+          </ProtectedRoute>
 
           <Chatbot />
         </main>

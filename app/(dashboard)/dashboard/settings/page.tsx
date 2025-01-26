@@ -1,9 +1,36 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { getAccessToken } from "@/lib/auth";
+import { useConnection } from "@/components/auth/Connections";
+
 
 export default function Settings() {
+  const searchParams = useSearchParams()
+  const [code, setCode] = useState<string | null>(searchParams.get('code'));
+  const { data } = useSession()
+  const router = useRouter()
+  const pathname = usePathname()
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const {isLoading:connectionLoading, isDocusignConnected, getTokens} = useConnection()
+
+
+  useEffect(() => {
+    if(code){
+      getAccessToken(code, data?.user.id!)
+      // set status from here
+    }
+    
+  }, [])
+
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
@@ -54,7 +81,14 @@ export default function Settings() {
                     Connect your DocuSign account for e-signatures
                   </p>
                 </div>
-                <Button variant="docsign">Connect</Button>
+                {
+                  !isDocusignConnected? <Link
+
+                  href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=http://localhost:3000/dashboard/settings`}>
+                  <Button variant="docsign"  >
+                    Connect</Button>
+                </Link>: <Button variant="success">Connected</Button>
+                }
               </div>
 
               <div className="flex items-center justify-between py-4 border-b">

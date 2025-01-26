@@ -15,5 +15,5 @@ export default withAuth(
 
 // Protect all routes under /dashboard and /api
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/:path*"],
+  matcher: [],
 };
