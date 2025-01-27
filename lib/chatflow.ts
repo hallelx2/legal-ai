@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { Flow, Params } from "react-chatbotify";
 import { GeminiService } from '../services/gemini';
 import { AGREEMENT_TYPES } from '../config/agreements';
-import { ChatMessage } from '../types/chatbot';
 
 const geminiService = new GeminiService(process.env.NEXT_PUBLIC_GEMINI_API_KEY || '');
 

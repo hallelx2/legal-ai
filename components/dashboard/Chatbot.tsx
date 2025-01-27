@@ -1,7 +1,6 @@
 "use client";
 import ChatBot from "react-chatbotify";
 import { SendIcon } from "lucide-react";
-import { Flow, Params } from "react-chatbotify";
 import React from "react";
 import { ChatFlow } from "@/lib/chatflow";
 
