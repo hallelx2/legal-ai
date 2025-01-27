@@ -37,7 +37,7 @@ export const ConnectionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     useEffect(() => {
         getTokens()
-    }, [isDocusignConnected])
+    }, [])
     
 
     return (
