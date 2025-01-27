@@ -1,12 +1,15 @@
 "use client";
 
-import { createAgreement, fetchAgreementbyId, fetchAgreements, sendForSignature } from "@/lib/apis/agreements";
+import {
+  createAgreement,
+  fetchAgreementbyId,
+  fetchAgreements,
+  sendForSignature,
+} from "@/lib/apis/agreements";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./use-toast";
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
 import { Agreement } from "@/types/agreements";
-
-
 
 const useCreateAgreement = () => {
   const queryClient = useQueryClient();
@@ -66,7 +69,6 @@ const useCreateAgreement = () => {
   });
 };
 
-
 interface AgreementsData {
   id: string;
   title: string;
@@ -76,79 +78,85 @@ interface AgreementsData {
   party: string;
 }
 
-const useAgreements = (userId:string) => {
-  return useQuery<Agreement[], Error,AgreementsData[] >({
-    queryKey: ['agreements'],
+const useAgreements = (userId: string) => {
+  return useQuery<Agreement[], Error, AgreementsData[]>({
+    queryKey: ["agreements"],
     queryFn: () => fetchAgreements(userId),
     select(data) {
-      return data.map((data)=>{
+      return data.map((data) => {
         return {
           id: data._id,
           title: data.name,
           type: data.templateId, // Assuming a static value, replace as needed
           status: data.metadata.status,
           updatedAt: new Date(data.updatedAt),
-          party: 'Tech Corp', // Replace or fetch dynamically if needed
-        }
+          party: "Tech Corp", // Replace or fetch dynamically if needed
+        };
       });
     },
-  })
+  });
+};
+
+export interface Party {
+  name: string;
+  email: string;
+  status: string;
 }
-
-
-export interface Party { name: string, email: string, status: string }
 
 export interface AgreementData {
-    id:string;
-    title: string;
-    status: string;
-    createdAt:  Date;
-    updatedAt: Date;
-    parties: Party[];
-    type: string;
-    content: string
+  id: string;
+  title: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  parties: Party[];
+  type: string;
+  content: string;
 }
 
-
-const useAgreement = (userId:string) => {
-  return useQuery<Agreement, Error, AgreementData >({
-    queryKey: ['agreement'],
+const useAgreement = (userId: string) => {
+  return useQuery<Agreement, Error, AgreementData>({
+    queryKey: ["agreement"],
     queryFn: () => fetchAgreementbyId(userId),
     select(data) {
       return {
-        id:data._id,
+        id: data._id,
         title: data.name,
         status: data.metadata.status,
-        createdAt:  new Date(data.createdAt),
+        createdAt: new Date(data.createdAt),
         updatedAt: new Date(data.updatedAt),
-        parties: data.signatureLocations.map((data) : Party=> ({name:data.email, status:data.role, email:data.email})),
+        parties: data.signatureLocations.map(
+          (data): Party => ({
+            name: data.email,
+            status: data.role,
+            email: data.email,
+          }),
+        ),
         type: data.templateId,
         content: data.htmlContent,
-      }
+      };
     },
-  })
-}
+  });
+};
 
 export interface AgreementSentResponse {
   agreementId: string;
-  envelopeId:string;
-  status:string
+  envelopeId: string;
+  status: string;
 }
 
 export interface AgreementDataResquest {
   userId: string;
-  agreement_id:string;
+  agreement_id: string;
 }
-
-
 
 const useSendForSignature = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  return useMutation<AgreementSentResponse, Error,AgreementDataResquest >({
+  return useMutation<AgreementSentResponse, Error, AgreementDataResquest>({
     mutationFn: sendForSignature,
-    
+
     onSuccess: (data) => {
       // Invalidate and refetch
       console.log("signature Sent:", data.status);
@@ -201,11 +209,4 @@ const useSendForSignature = () => {
   });
 };
 
-
-
-
-
-
-
-
-export { useAgreements, useCreateAgreement, useAgreement, useSendForSignature}
+export { useAgreements, useCreateAgreement, useAgreement, useSendForSignature };

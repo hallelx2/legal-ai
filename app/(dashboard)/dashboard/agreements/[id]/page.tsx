@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useAgreement, useSendForSignature } from "@/hooks/useAgreements";
 import { useSession } from "next-auth/react";
-
+import { useToast } from "@/hooks/use-toast";
 
 export default function AgreementView() {
   const { id } = useParams();
@@ -26,27 +26,27 @@ export default function AgreementView() {
   const [activeTab, setActiveTab] = useState<"preview" | "history" | "details">(
     "preview",
   );
-  const {data:agreement} = useAgreement(id as string)
-  const sendAgreement = useSendForSignature()
-  const {data} = useSession()
+  const { data: agreement } = useAgreement(id as string);
+  const sendAgreement = useSendForSignature();
+  const { data } = useSession();
+  const toast = useToast()
 
   const handleSendAgreement = () => {
     // If no template is selected, return early
 
     // Transform the form data into the backend API structure
     const apiStructure = {
-        userId : data?.user.id as string,
-        agreement_id:id as string
-      };
+      userId: data?.user.id as string,
+      agreement_id: id as string,
+    };
 
-      sendAgreement.mutate(apiStructure);
+    sendAgreement.mutate(apiStructure);
+    
 
     // Redirect to agreements page after creating agreement
-    router.refresh()
+
+    router.refresh();
   };
-
-
-
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -60,170 +60,175 @@ export default function AgreementView() {
         return <Badge>{status}</Badge>;
     }
   };
-  if(agreement)
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <Button
-          variant="secondary"
-          onClick={() => router.push("/dashboard/agreements")}
-        >
-          <ArrowLeft className="h-5 w-5 mr-2" />
-          Back to Agreements
-        </Button>
-        <div className="flex space-x-3">
-          <Button variant="secondary">
-            <Download className="h-4 w-4 mr-2" />
-            Download PDF
+  if (agreement)
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <Button
+            variant="secondary"
+            onClick={() => router.push("/dashboard/agreements")}
+          >
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Back to Agreements
           </Button>
-          <Button variant="secondary">
-            <Share2 className="h-4 w-4 mr-2" />
-            Share
-          </Button>
-          <Button onClick={handleSendAgreement} variant="gradient">
-            <Send className="h-4 w-4 mr-2" />
-            Send for Signature
-          </Button>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl shadow-sm">
-        <div className="px-6 py-4 border-b">
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {agreement.title}
-              </h1>
-              <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
-                <span>{agreement.type}</span>
-                <span>•</span>
-                <span>Created {agreement.createdAt.toLocaleDateString()}</span>
-                <span>•</span>
-                {getStatusBadge(agreement.status)}
-              </div>
-            </div>
+          <div className="flex space-x-3">
+            <Button variant="secondary">
+              <Download className="h-4 w-4 mr-2" />
+              Download PDF
+            </Button>
+            <Button variant="secondary">
+              <Share2 className="h-4 w-4 mr-2" />
+              Share
+            </Button>
+            <Button onClick={handleSendAgreement} variant="gradient">
+              <Send className="h-4 w-4 mr-2" />
+              Send for Signature
+            </Button>
           </div>
         </div>
 
-        <div className="border-b">
-          <nav className="flex">
-            <button
-              onClick={() => setActiveTab("preview")}
-              className={`px-6 py-3 text-sm font-medium border-b-2 ${
-                activeTab === "preview"
-                  ? "border-teal-500 text-teal-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              }`}
-            >
-              <Eye className="h-4 w-4 inline mr-2" />
-              Preview
-            </button>
-            <button
-              onClick={() => setActiveTab("history")}
-              className={`px-6 py-3 text-sm font-medium border-b-2 ${
-                activeTab === "history"
-                  ? "border-teal-500 text-teal-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              }`}
-            >
-              <Clock className="h-4 w-4 inline mr-2" />
-              History
-            </button>
-            <button
-              onClick={() => setActiveTab("details")}
-              className={`px-6 py-3 text-sm font-medium border-b-2 ${
-                activeTab === "details"
-                  ? "border-teal-500 text-teal-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              }`}
-            >
-              Details
-            </button>
-          </nav>
-        </div>
+        <div className="bg-white rounded-xl shadow-sm">
+          <div className="px-6 py-4 border-b">
+            <div className="flex justify-between items-start">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {agreement.title}
+                </h1>
+                <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                  <span>{agreement.type}</span>
+                  <span>•</span>
+                  <span>
+                    Created {agreement.createdAt.toLocaleDateString()}
+                  </span>
+                  <span>•</span>
+                  {getStatusBadge(agreement.status)}
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div className="p-6">
-          {activeTab === "preview" && (
-            <div className="grid grid-cols-3 gap-6">
-              <div className="col-span-2">
-                <div className="bg-white border rounded-lg p-8">
-                  <div className="prose max-w-none">
-                    <div dangerouslySetInnerHTML={{__html:agreement.content}} className="overflow-y-scroll font-sans text-gray-800">
-                      
+          <div className="border-b">
+            <nav className="flex">
+              <button
+                onClick={() => setActiveTab("preview")}
+                className={`px-6 py-3 text-sm font-medium border-b-2 ${
+                  activeTab === "preview"
+                    ? "border-teal-500 text-teal-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <Eye className="h-4 w-4 inline mr-2" />
+                Preview
+              </button>
+              <button
+                onClick={() => setActiveTab("history")}
+                className={`px-6 py-3 text-sm font-medium border-b-2 ${
+                  activeTab === "history"
+                    ? "border-teal-500 text-teal-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                <Clock className="h-4 w-4 inline mr-2" />
+                History
+              </button>
+              <button
+                onClick={() => setActiveTab("details")}
+                className={`px-6 py-3 text-sm font-medium border-b-2 ${
+                  activeTab === "details"
+                    ? "border-teal-500 text-teal-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                Details
+              </button>
+            </nav>
+          </div>
+
+          <div className="p-6">
+            {activeTab === "preview" && (
+              <div className="grid grid-cols-3 gap-6">
+                <div className="col-span-2">
+                  <div className="bg-white border rounded-lg p-8">
+                    <div className="prose max-w-none">
+                      <div
+                        dangerouslySetInnerHTML={{ __html: agreement.content }}
+                        className="overflow-y-scroll min-h-screen min-w-[300px] max-w-full font-sans text-gray-800"
+                      ></div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="space-y-4">
-                <Card>
-                  <div className="p-4">
-                    <h3 className="font-medium text-gray-900 mb-4">
-                      Signatures Required
-                    </h3>
-                    <div className="space-y-4">
-                      {agreement.parties.map((party, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center justify-between"
-                        >
-                          <div>
-                            <p className="font-medium text-gray-900">
-                              {party.name}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {party.email}
-                            </p>
+                <div className="space-y-4">
+                  <Card>
+                    <div className="p-4">
+                      <h3 className="font-medium text-gray-900 mb-4">
+                        Signatures Required
+                      </h3>
+                      <div className="space-y-4">
+                        {agreement.parties.map((party, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between"
+                          >
+                            <div>
+                              <p className="font-medium text-gray-900">
+                                {party.name}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                {party.email}
+                              </p>
+                            </div>
+                            {party.status === "signed" ? (
+                              <CheckCircle2 className="h-5 w-5 text-green-500" />
+                            ) : (
+                              <AlertCircle className="h-5 w-5 text-yellow-500" />
+                            )}
                           </div>
-                          {party.status === "signed" ? (
-                            <CheckCircle2 className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <AlertCircle className="h-5 w-5 text-yellow-500" />
-                          )}
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </Card>
+                  </Card>
 
-                <Card>
-                  <div className="p-4">
-                    <h3 className="font-medium text-gray-900 mb-4">
-                      Agreement Details
-                    </h3>
-                    <dl className="space-y-2">
-                      <div>
-                        <dt className="text-sm text-gray-500">Status</dt>
-                        <dd className="text-sm font-medium text-gray-900">
-                          {agreement.status}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-sm text-gray-500">Created</dt>
-                        <dd className="text-sm font-medium text-gray-900">
-                          {agreement.createdAt.toLocaleDateString()}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-sm text-gray-500">Last Updated</dt>
-                        <dd className="text-sm font-medium text-gray-900">
-                          {agreement.updatedAt.toLocaleDateString()}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-sm text-gray-500">Type</dt>
-                        <dd className="text-sm font-medium text-gray-900">
-                          {agreement.type}
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
-                </Card>
+                  <Card>
+                    <div className="p-4">
+                      <h3 className="font-medium text-gray-900 mb-4">
+                        Agreement Details
+                      </h3>
+                      <dl className="space-y-2">
+                        <div>
+                          <dt className="text-sm text-gray-500">Status</dt>
+                          <dd className="text-sm font-medium text-gray-900">
+                            {agreement.status}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="text-sm text-gray-500">Created</dt>
+                          <dd className="text-sm font-medium text-gray-900">
+                            {agreement.createdAt.toLocaleDateString()}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="text-sm text-gray-500">
+                            Last Updated
+                          </dt>
+                          <dd className="text-sm font-medium text-gray-900">
+                            {agreement.updatedAt.toLocaleDateString()}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="text-sm text-gray-500">Type</dt>
+                          <dd className="text-sm font-medium text-gray-900">
+                            {agreement.type}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </Card>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* {activeTab === "history" && (
+            {/* {activeTab === "history" && (
             <div className="space-y-4">
               {agreement.history.map((event, index) => (
                 <div
@@ -243,61 +248,63 @@ export default function AgreementView() {
             </div>
           )} */}
 
-          {activeTab === "details" && (
-            <div className="grid grid-cols-2 gap-6">
-              <Card>
-                <div className="p-4">
-                  <h3 className="font-medium text-gray-900 mb-4">
-                    Agreement Information
-                  </h3>
-                  <dl className="space-y-2">
-                    <div>
-                      <dt className="text-sm text-gray-500">Title</dt>
-                      <dd className="text-sm font-medium text-gray-900">
-                        {agreement.title}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="text-sm text-gray-500">Type</dt>
-                      <dd className="text-sm font-medium text-gray-900">
-                        {agreement.type}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="text-sm text-gray-500">Status</dt>
-                      <dd className="text-sm font-medium text-gray-900">
-                        {agreement.status}
-                      </dd>
-                    </div>
-                  </dl>
-                </div>
-              </Card>
-
-              <Card>
-                <div className="p-4">
-                  <h3 className="font-medium text-gray-900 mb-4">Parties</h3>
-                  <div className="space-y-4">
-                    {agreement.parties.map((party, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between"
-                      >
-                        <div>
-                          <p className="font-medium text-gray-900">
-                            {party.name}
-                          </p>
-                          <p className="text-sm text-gray-500">{party.email}</p>
-                        </div>
-                        {getStatusBadge(party.status)}
+            {activeTab === "details" && (
+              <div className="grid grid-cols-2 gap-6">
+                <Card>
+                  <div className="p-4">
+                    <h3 className="font-medium text-gray-900 mb-4">
+                      Agreement Information
+                    </h3>
+                    <dl className="space-y-2">
+                      <div>
+                        <dt className="text-sm text-gray-500">Title</dt>
+                        <dd className="text-sm font-medium text-gray-900">
+                          {agreement.title}
+                        </dd>
                       </div>
-                    ))}
+                      <div>
+                        <dt className="text-sm text-gray-500">Type</dt>
+                        <dd className="text-sm font-medium text-gray-900">
+                          {agreement.type}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm text-gray-500">Status</dt>
+                        <dd className="text-sm font-medium text-gray-900">
+                          {agreement.status}
+                        </dd>
+                      </div>
+                    </dl>
                   </div>
-                </div>
-              </Card>
-            </div>
-          )}
+                </Card>
+
+                <Card>
+                  <div className="p-4">
+                    <h3 className="font-medium text-gray-900 mb-4">Parties</h3>
+                    <div className="space-y-4">
+                      {agreement.parties.map((party, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between"
+                        >
+                          <div>
+                            <p className="font-medium text-gray-900">
+                              {party.name}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {party.email}
+                            </p>
+                          </div>
+                          {getStatusBadge(party.status)}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 }

@@ -9,23 +9,24 @@ export async function getAuthSession() {
   return session;
 }
 
-
-
-export const getAccessToken =async (code: string, id: string)=>{
+export const getAccessToken = async (code: string, id: string) => {
   try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/docusign/create`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "code": code,
-                "user_id": id
-            })
-        })
-       return await response.json()
-    } catch (error) {
-        console.log(error)
-        return {error}
-    }
-}
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/docusign/create`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: code,
+          user_id: id,
+        }),
+      },
+    );
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+};

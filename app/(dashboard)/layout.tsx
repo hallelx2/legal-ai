@@ -9,7 +9,6 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Chatbot from "@/components/dashboard/Chatbot";
 import { ConnectionProvider } from "@/components/auth/Connections";
 
-
 export default function DashboardLayout({
   children,
 }: {
@@ -53,11 +52,8 @@ export default function DashboardLayout({
       <div className="pt-16 flex h-[calc(100vh-4rem)]">
         <Sidebar />
         <main className="flex-1 overflow-auto p-8">
-
           <ProtectedRoute>
-            <ConnectionProvider>
-            {children}
-            </ConnectionProvider>
+            <ConnectionProvider>{children}</ConnectionProvider>
           </ProtectedRoute>
 
           <Chatbot />

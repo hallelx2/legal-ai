@@ -23,10 +23,8 @@ const handler = NextAuth({
             },
           );
 
-
-
           if (!response.ok) {
-            console.log(response)
+            console.log(response);
             throw new Error("Invalid credentials");
           }
 

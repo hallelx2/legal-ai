@@ -1,6 +1,6 @@
 // lib/axios.ts
-import axios from 'axios';
-import { getSession } from 'next-auth/react';
+import axios from "axios";
+import { getSession } from "next-auth/react";
 
 const createAxiosInstance = () => {
   const instance = axios.create({
@@ -23,7 +23,7 @@ const createAxiosInstance = () => {
         return config;
       }
     },
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   );
 
   return instance;

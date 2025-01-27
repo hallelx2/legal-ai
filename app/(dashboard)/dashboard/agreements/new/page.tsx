@@ -31,34 +31,35 @@ export default function CreateAgreement() {
 
   const userId = session?.user?.id;
 
-
   const handleCreateAgreement = (formData: Record<string, any>) => {
     // If no template is selected, return early
     if (!selectedTemplate) return;
 
     // Transform the form data into the backend API structure
     const apiStructure = {
-        userId: userId,
-        templateId: selectedTemplate.id,
-        sections: selectedTemplate.sections.map((section) => ({
-          sectionId: section.id,
-          variables: section.variables.map((variable) => ({
-            id: variable.id,
-            value: formData[variable.id] ?? "",
-          })),
+      userId: userId,
+      templateId: selectedTemplate.id,
+      sections: selectedTemplate.sections.map((section) => ({
+        sectionId: section.id,
+        variables: section.variables.map((variable) => ({
+          id: variable.id,
+          value: formData[variable.id] ?? "",
         })),
-        signatureLocations: selectedSignatureLocations.map((location) => ({
-          role: location.role,
-          email: location.email,
-          page: typeof location.page === 'string' ? location.page : Number(location.page),
-          x: Number(location.x),
-          y: Number(location.y),
-          required: location.required,
-        })),
-      };
+      })),
+      signatureLocations: selectedSignatureLocations.map((location) => ({
+        role: location.role,
+        email: location.email,
+        page:
+          typeof location.page === "string"
+            ? location.page
+            : Number(location.page),
+        x: Number(location.x),
+        y: Number(location.y),
+        required: location.required,
+      })),
+    };
 
     createAgreementMutation.mutate(apiStructure);
-
   };
 
   const handleSignatureLocationSelect = (location: SignatureLocation) => {

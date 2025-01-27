@@ -10,8 +10,7 @@ export const createAgreement = async (data: any) => {
   }
 };
 
-
-export const fetchAgreements = async (userId:string): Promise<Array<any>> => {
+export const fetchAgreements = async (userId: string): Promise<Array<any>> => {
   try {
     console.log("Axios Client:", axiosInstance);
     const response = await axiosInstance.get(`agreements/user/${userId}`);
@@ -19,11 +18,9 @@ export const fetchAgreements = async (userId:string): Promise<Array<any>> => {
   } catch (error) {
     throw error;
   }
+};
 
-}
-
-
-export const fetchAgreementbyId = async (id:string): Promise<any> => {
+export const fetchAgreementbyId = async (id: string): Promise<any> => {
   try {
     console.log("Axios Client:", axiosInstance);
     const response = await axiosInstance.get(`agreements/${id}`);
@@ -31,16 +28,23 @@ export const fetchAgreementbyId = async (id:string): Promise<any> => {
   } catch (error) {
     throw error;
   }
+};
 
-}
-
-export const sendForSignature = async ({userId, agreement_id}:{userId:string, agreement_id:string}):Promise<any> =>{
+export const sendForSignature = async ({
+  userId,
+  agreement_id,
+}: {
+  userId: string;
+  agreement_id: string;
+}): Promise<any> => {
   try {
     console.log("Axios Client:", axiosInstance);
-    const response = await axiosInstance.post(`agreements/${agreement_id}/sign`, {userId});
+    const response = await axiosInstance.post(
+      `agreements/${agreement_id}/sign`,
+      { userId },
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
-
-}
+};
