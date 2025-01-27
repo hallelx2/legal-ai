@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Send,
+  Loader2,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -26,9 +27,9 @@ export default function AgreementView() {
     "preview",
   );
   const { data: agreement } = useAgreement(id as string);
-  const sendAgreement = useSendForSignature();
+  const { mutate: sendAgreement, isPending } = useSendForSignature();
   const { data } = useSession();
-  const toast = useToast()
+  const toast = useToast();
 
   const handleSendAgreement = () => {
     // If no template is selected, return early
@@ -39,10 +40,9 @@ export default function AgreementView() {
       agreement_id: id as string,
     };
 
-    sendAgreement.mutate(apiStructure);
-    
+    sendAgreement(apiStructure);
 
-    // Redirect to agreements page after creating agreement
+    // Redirect to agreements page after sending agreement
 
     router.refresh();
   };
@@ -61,7 +61,7 @@ export default function AgreementView() {
   };
   if (agreement)
     return (
-      <div className="space-y-6">
+      <div className="max-w-[1600px] mx-auto ">
         <div className="flex justify-between items-center">
           <Button
             variant="secondary"
@@ -79,9 +79,23 @@ export default function AgreementView() {
               <Share2 className="h-4 w-4 mr-2" />
               Share
             </Button>
-            <Button onClick={handleSendAgreement} variant="gradient">
-              <Send className="h-4 w-4 mr-2" />
-              Send for Signature
+            <Button
+              onClick={handleSendAgreement}
+              variant="docsign"
+              disabled={isPending}
+              className="relative"
+            >
+              {isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Send for Signature
+                </>
+              )}
             </Button>
           </div>
         </div>
@@ -112,7 +126,7 @@ export default function AgreementView() {
                 onClick={() => setActiveTab("preview")}
                 className={`px-6 py-3 text-sm font-medium border-b-2 ${
                   activeTab === "preview"
-                    ? "border-teal-500 text-teal-600"
+                    ? "border-indigo-500 text-indigo-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
@@ -123,7 +137,7 @@ export default function AgreementView() {
                 onClick={() => setActiveTab("history")}
                 className={`px-6 py-3 text-sm font-medium border-b-2 ${
                   activeTab === "history"
-                    ? "border-teal-500 text-teal-600"
+                    ? "border-indigo-500 text-indigo-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
@@ -134,7 +148,7 @@ export default function AgreementView() {
                 onClick={() => setActiveTab("details")}
                 className={`px-6 py-3 text-sm font-medium border-b-2 ${
                   activeTab === "details"
-                    ? "border-teal-500 text-teal-600"
+                    ? "border-indigo-500 text-indigo-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
@@ -151,7 +165,7 @@ export default function AgreementView() {
                     <div className="prose max-w-none">
                       <div
                         dangerouslySetInnerHTML={{ __html: agreement.content }}
-                        className="overflow-y-scroll min-h-screen min-w-[300px] max-w-full font-sans text-gray-800"
+                        className="overflow-y-auto max-h-[calc(100vh-12rem)] min-w-[300px] max-w-full font-sans text-gray-800 p-6"
                       ></div>
                     </div>
                   </div>
@@ -171,7 +185,7 @@ export default function AgreementView() {
                           >
                             <div>
                               <p className="font-medium text-gray-900">
-                                {party.name}
+                                {party.status}
                               </p>
                               <p className="text-sm text-gray-500">
                                 {party.email}

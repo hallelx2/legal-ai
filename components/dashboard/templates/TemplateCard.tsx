@@ -14,10 +14,10 @@ export default function TemplateCard({ template, onClick }: TemplateCardProps) {
   return (
     <button
       onClick={onClick}
-      className="p-6 border-2 border-gray-200 rounded-lg hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors w-full text-left"
+      className="p-6 border-2 border-gray-200 rounded-lg hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 transition-colors w-full text-left"
     >
       <div className="flex justify-between items-start">
-        <div className="text-teal-600">
+        <div className="text-indigo-600">
           <Icon className="h-8 w-8" />
         </div>
         <Badge
@@ -36,7 +36,11 @@ export default function TemplateCard({ template, onClick }: TemplateCardProps) {
 
       <div className="mt-4 flex flex-wrap gap-2">
         {template.metadata.tags.map((tag, index) => (
-          <Badge key={index} variant="secondary">
+          <Badge
+            key={index}
+            variant="secondary"
+            className="bg-indigo-50 text-indigo-700 border border-indigo-200"
+          >
             {tag}
           </Badge>
         ))}

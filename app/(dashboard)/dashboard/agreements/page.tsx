@@ -10,8 +10,10 @@ import { useAgreements } from "@/hooks/useAgreements";
 
 export default function Agreements() {
   const router = useRouter();
-  const session = useSession()
-  const {data:agreements, isFetching} = useAgreements(session.data?.user.id!)
+  const session = useSession();
+  const { data: agreements, isFetching } = useAgreements(
+    session.data?.user.id!,
+  );
 
   return (
     <div>
@@ -49,48 +51,51 @@ export default function Agreements() {
         </div>
       </Card>
 
-     {
-      isFetching ? <LoaderPinwheel />: ""
-     }
+      {isFetching ? (
+        <LoaderPinwheel className="justify-center items-center" />
+      ) : (
+        ""
+      )}
       <div className="grid gap-4">
-      {!isFetching && agreements!.map((agreement) => (
-        <Card key={agreement.id}>
-          <div className="p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex items-center space-x-4">
-              <FileText className="h-8 w-8 text-gray-400 flex-shrink-0" />
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">
-                  {agreement.title}
-                </h3>
-                <p className="text-sm text-gray-500">
-                  {agreement.type} • With {agreement.party} • Last updated{" "}
-                  {agreement.updatedAt.toLocaleDateString()}
-                </p>
+        {!isFetching &&
+          agreements!.map((agreement) => (
+            <Card key={agreement.id}>
+              <div className="p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="flex items-center space-x-4">
+                  <FileText className="h-8 w-8 text-gray-400 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900">
+                      {agreement.title}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {agreement.type} • With {agreement.party} • Last updated{" "}
+                      {agreement.updatedAt.toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4 w-full md:w-auto">
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm ${
+                      agreement.status === "completed"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {agreement.status}
+                  </span>
+                  <Button
+                    variant="secondary"
+                    onClick={() =>
+                      router.push(`/dashboard/agreements/${agreement.id}`)
+                    }
+                  >
+                    View
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center space-x-4 w-full md:w-auto">
-              <span
-                className={`px-3 py-1 rounded-full text-sm ${
-                  agreement.status === "completed"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
-              >
-                {agreement.status}
-              </span>
-              <Button
-                variant="secondary"
-                onClick={() =>
-                  router.push(`/dashboard/agreements/${agreement.id}`)
-                }
-              >
-                View
-              </Button>
-            </div>
-          </div>
-        </Card>
-      ))}
-    </div>
+            </Card>
+          ))}
+      </div>
     </div>
   );
 }

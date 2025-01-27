@@ -31,6 +31,8 @@ export default function CreateAgreement() {
 
   const userId = session?.user?.id;
 
+  // Import useRouter from Next.js if you haven't already
+
   const handleCreateAgreement = (formData: Record<string, any>) => {
     // If no template is selected, return early
     if (!selectedTemplate) return;
@@ -59,7 +61,18 @@ export default function CreateAgreement() {
       })),
     };
 
-    createAgreementMutation.mutate(apiStructure);
+    // Use the mutation with onSuccess callback
+    createAgreementMutation.mutate(apiStructure, {
+      onSuccess: (newAgreementData) => {
+        // Navigate to the new agreement page using the returned ID
+        router.push(`/dashboard/agreements/${newAgreementData._id}`);
+      },
+      onError: (error) => {
+        // Handle any errors that occur during agreement creation
+        console.error("Failed to create agreement:", error);
+        // You might want to show an error message to the user here
+      },
+    });
   };
 
   const handleSignatureLocationSelect = (location: SignatureLocation) => {

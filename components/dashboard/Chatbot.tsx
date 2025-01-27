@@ -6,7 +6,6 @@ import React from "react";
 import { ChatFlow } from "@/lib/chatflow";
 
 function Chatbot() {
-
   return (
     <div>
       <ChatBot
@@ -27,10 +26,10 @@ function Chatbot() {
             color: "blue",
           },
           botBubbleStyle: {
-            fontSize:12,
-            fontWeight:600,
+            fontSize: 12,
+            fontWeight: 600,
             lineHeight: 1.1,
-           },
+          },
           chatIconStyle: { height: 30 },
           chatButtonStyle: {
             height: 60,
@@ -61,15 +60,14 @@ function Chatbot() {
           sendButtonStyle: {
             background: "white",
           },
-          userBubbleStyle:{
-            fontSize:11,
-            fontWeight:600
+          userBubbleStyle: {
+            fontSize: 11,
+            fontWeight: 600,
           },
-          botOptionStyle:{
-            fontSize:11,
-            fontWeight:600
-          }
-          
+          botOptionStyle: {
+            fontSize: 11,
+            fontWeight: 600,
+          },
         }}
         settings={{
           general: {

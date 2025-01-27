@@ -4,7 +4,6 @@ import "@/styles/globals.css";
 import ClientLayout from "./ClientLayout"; // We'll create this
 import { Toaster } from "@/components/ui/toaster";
 
-
 const notoSans = Noto_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],

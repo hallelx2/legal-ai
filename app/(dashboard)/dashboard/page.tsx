@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
+import React from "react";
+import { useRouter } from "next/navigation";
 import {
   Plus,
   FileText,
@@ -13,9 +13,13 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { useAgreement, useAgreements } from "@/hooks/useAgreements";
+import { useSession } from "next-auth/react";
 
 export default function Dashboard() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   const quickStats = [
     {
@@ -43,6 +47,8 @@ export default function Dashboard() {
       trend: "2 new this week",
     },
   ];
+
+  //   const {data:agreements, isFetching} = useAgreements(userId as string)
 
   const recentAgreements = [
     {
@@ -120,7 +126,9 @@ export default function Dashboard() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Welcome back!</h1>
-          <p className="mt-1 text-gray-600">Here&apos;s what&apos;s happening with your agreements</p>
+          <p className="mt-1 text-gray-600">
+            Here&apos;s what&apos;s happening with your agreements
+          </p>
         </div>
         <div className="flex space-x-4">
           <Button
@@ -130,7 +138,7 @@ export default function Dashboard() {
             <FileText className="h-5 w-5 mr-2" />
             View All Agreements
           </Button>
-          <Button to="/dashboard/agreements/new" variant="gradient">
+          <Button to="/dashboard/agreements/new" variant="docsign">
             <Plus className="h-5 w-5 mr-2" />
             New Agreement
           </Button>
@@ -153,8 +161,8 @@ export default function Dashboard() {
                       {stat.value}
                     </p>
                   </div>
-                  <div className="p-2 bg-teal-50 rounded-lg">
-                    <Icon className="h-6 w-6 text-teal-600" />
+                  <div className="p-2 bg-indigo-50 rounded-lg">
+                    <Icon className="h-6 w-6 text-indigo-600" />
                   </div>
                 </div>
                 <p className="mt-2 text-sm text-gray-500">{stat.trend}</p>
@@ -209,10 +217,10 @@ export default function Dashboard() {
                       <span
                         className={`px-3 py-1 rounded-full text-sm ${
                           agreement.status === "completed"
-                            ? "bg-green-100 text-green-800"
+                            ? "bg-indigo-100 text-indigo-800"
                             : agreement.status === "pending_signature"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-gray-100 text-gray-800"
+                              ? "bg-violet-100 text-violet-800"
+                              : "bg-purple-100 text-purple-800"
                         }`}
                       >
                         {agreement.status.replace("_", " ")}
@@ -273,7 +281,7 @@ export default function Dashboard() {
               </h2>
               <div className="space-y-3">
                 <button className="w-full flex items-center p-3 text-left rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="p-2 bg-teal-50 rounded-lg">
+                  <div className="p-2 bg-indigo-50 rounded-lg">
                     <FileText className="h-5 w-5 text-teal-600" />
                   </div>
                   <div className="ml-3">

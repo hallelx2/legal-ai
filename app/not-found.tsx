@@ -13,8 +13,8 @@ export default function NotFound() {
         Oops! Page Not Found
       </h1>
       <p className="text-xl mb-8 text-center max-w-md">
-        We couldnvt find the page you&apos;re looking for. Let&apos;s get you back on
-        track!
+        We couldnvt find the page you&apos;re looking for. Let&apos;s get you
+        back on track!
       </p>
 
       <div className="flex w-full max-w-sm items-center space-x-2 mb-8">

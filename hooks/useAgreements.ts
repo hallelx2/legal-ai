@@ -10,10 +10,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { Agreement } from "@/types/agreements";
+import { useRouter } from "next/navigation";
 
 const useCreateAgreement = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: createAgreement,
@@ -37,6 +39,7 @@ const useCreateAgreement = () => {
         title: "Agreement creation failed",
         variant: "destructive",
       });
+      router.push("/dashboard/agreements");
     },
 
     onMutate: async (newAgreementData) => {

@@ -39,7 +39,7 @@ export default function SignInForm() {
         setError(result.error);
       } else if (result?.ok) {
         router.push(result?.url || "/dashboard");
-        router.refresh();
+        // router.refresh();
       }
     } catch (_) {
       setError("An unexpected error occurred");

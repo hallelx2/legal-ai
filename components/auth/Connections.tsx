@@ -1,7 +1,5 @@
-import { useSession } from 'next-auth/react';
-import React, { createContext, useState, useContext, useEffect } from 'react';
-
-
+import { useSession } from "next-auth/react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 // Authentication Context Type
 interface ConnectionType {
