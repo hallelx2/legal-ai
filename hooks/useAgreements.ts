@@ -1,6 +1,6 @@
 "use client";
 
-import { createAgreement, fetchAgreementbyId, fetchAgreements } from "@/lib/apis/agreements";
+import { createAgreement, fetchAgreementbyId, fetchAgreements, sendForSignature } from "@/lib/apis/agreements";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./use-toast";
 import { useQuery } from '@tanstack/react-query'
@@ -129,6 +129,83 @@ const useAgreement = (userId:string) => {
   })
 }
 
+export interface AgreementSentResponse {
+  agreementId: string;
+  envelopeId:string;
+  status:string
+}
+
+export interface AgreementDataResquest {
+  userId: string;
+  agreement_id:string;
+}
 
 
-export { useAgreements, useCreateAgreement, useAgreement}
+
+const useSendForSignature = () => {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation<AgreementSentResponse, Error,AgreementDataResquest >({
+    mutationFn: sendForSignature,
+    
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      console.log("signature Sent:", data.status);
+      queryClient.invalidateQueries({
+        queryKey: ["sendsign"],
+      });
+
+      toast({
+        title: "Signature Sent Successfully",
+      });
+    },
+
+    onError: (error: any) => {
+      console.error("Send Signature failed: ", error);
+
+      toast({
+        title: "Send Signature failed",
+        variant: "destructive",
+      });
+    },
+
+    onMutate: async (variables) => {
+      console.log("Mutation Success Data:", variables.userId);
+      const { userId, agreement_id } = variables;
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["sendsign"] });
+
+      // Snapshot the previous value
+      const previousSign = queryClient.getQueryData(["sendsign"]);
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(["sendsign"], (oldData: any) => {
+        // Handle case where oldData might be null
+        if (!oldData) return [variables];
+
+        // If oldData exists, add the new agreement
+        return [...oldData, variables];
+      });
+
+      // Return a context object with the snapshotted value
+      return { previousSign };
+    },
+
+    onSettled: (result, error, variables, context) => {
+      // If there was an error, restore the previous data
+      if (error) {
+        queryClient.setQueryData(["sendsign"], context);
+      }
+    },
+  });
+};
+
+
+
+
+
+
+
+
+export { useAgreements, useCreateAgreement, useAgreement, useSendForSignature}

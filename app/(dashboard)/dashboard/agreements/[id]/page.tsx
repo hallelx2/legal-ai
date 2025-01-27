@@ -16,7 +16,8 @@ import {
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { useAgreement } from "@/hooks/useAgreements";
+import { useAgreement, useSendForSignature } from "@/hooks/useAgreements";
+import { useSession } from "next-auth/react";
 
 
 export default function AgreementView() {
@@ -26,51 +27,22 @@ export default function AgreementView() {
     "preview",
   );
   const {data:agreement} = useAgreement(id as string)
-  
+  const sendAgreement = useSendForSignature()
+  const {data} = useSession()
 
-  // Mock data - replace with actual data fetching
-  const agreements = {
-    id,
-    title: "Non-Disclosure Agreement",
-    status: "pending_signature",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    parties: [
-      { name: "Tech Corp", email: "legal@techcorp.com", status: "signed" },
-      {
-        name: "Legal Solutions Inc",
-        email: "contracts@legalsolutions.com",
-        status: "pending",
-      },
-    ],
-    type: "NDA",
-    content: `THIS NON-DISCLOSURE AGREEMENT (this "Agreement") is made as of [DATE] by and between [PARTY 1] and [PARTY 2].
+  const handleSendAgreement = () => {
+    // If no template is selected, return early
 
-1. Confidential Information
-...
+    // Transform the form data into the backend API structure
+    const apiStructure = {
+        userId : data?.user.id as string,
+        agreement_id:id as string
+      };
 
-2. Non-Disclosure
-...
+      sendAgreement.mutate(apiStructure);
 
-3. Term
-...`,
-    history: [
-      {
-        action: "Created",
-        date: new Date(Date.now() - 86400000),
-        user: "John Doe",
-      },
-      {
-        action: "Sent for signature",
-        date: new Date(Date.now() - 3600000),
-        user: "John Doe",
-      },
-      {
-        action: "Signed by Tech Corp",
-        date: new Date(Date.now() - 1800000),
-        user: "Sarah Smith",
-      },
-    ],
+    // Redirect to agreements page after creating agreement
+    router.refresh()
   };
 
   const getStatusBadge = (status: string) => {
@@ -105,7 +77,7 @@ export default function AgreementView() {
             <Share2 className="h-4 w-4 mr-2" />
             Share
           </Button>
-          <Button variant="gradient">
+          <Button onClick={handleSendAgreement} variant="gradient">
             <Send className="h-4 w-4 mr-2" />
             Send for Signature
           </Button>
@@ -173,9 +145,9 @@ export default function AgreementView() {
               <div className="col-span-2">
                 <div className="bg-white border rounded-lg p-8">
                   <div className="prose max-w-none">
-                    <pre dangerouslySetInnerHTML={{__html:agreement.content}} className="whitespace-pre-wrap font-sans text-gray-800">
+                    <div dangerouslySetInnerHTML={{__html:agreement.content}} className="overflow-y-scroll font-sans text-gray-800">
                       
-                    </pre>
+                    </div>
                   </div>
                 </div>
               </div>

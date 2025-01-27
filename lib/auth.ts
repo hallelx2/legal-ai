@@ -10,12 +10,10 @@ export async function getAuthSession() {
 }
 
 
-export const BASE_URL="http://localhost:8000";
-
 
 export const getAccessToken =async (code: string, id: string)=>{
   try {
-        const response = await fetch(`http://localhost:8000/docusign/create`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/docusign/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

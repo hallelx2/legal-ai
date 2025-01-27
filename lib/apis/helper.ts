@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react';
 
 const createAxiosInstance = () => {
   const instance = axios.create({
-    baseURL: "http://localhost:8000/", // Your API base URL
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}`, // Your API base URL
   });
 
   // Add a request interceptor

@@ -59,8 +59,6 @@ export default function CreateAgreement() {
 
     createAgreementMutation.mutate(apiStructure);
 
-    // Redirect to agreements page after creating agreement
-    router.push("/dashboard/agreements");
   };
 
   const handleSignatureLocationSelect = (location: SignatureLocation) => {

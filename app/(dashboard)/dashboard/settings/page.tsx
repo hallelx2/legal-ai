@@ -25,6 +25,9 @@ export default function Settings() {
   useEffect(() => {
     if(code){
       getAccessToken(code, data?.user.id!)
+      .then(()=>{
+        router.refresh()
+      })
       // set status from here
     }
   }, [connectionLoading])
@@ -32,7 +35,7 @@ export default function Settings() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Settings {isDocusignConnected?"connted":"not connted"}</h1>
+      <h1 className="text-2xl font-bold text-gray-900">Settings </h1>
 
       <div className="grid grid-cols-1 gap-6">
         <Card>

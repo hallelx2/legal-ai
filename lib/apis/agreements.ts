@@ -33,3 +33,14 @@ export const fetchAgreementbyId = async (id:string): Promise<any> => {
   }
 
 }
+
+export const sendForSignature = async ({userId, agreement_id}:{userId:string, agreement_id:string}):Promise<any> =>{
+  try {
+    console.log("Axios Client:", axiosInstance);
+    const response = await axiosInstance.post(`agreements/${agreement_id}/sign`, {userId});
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+
+}
