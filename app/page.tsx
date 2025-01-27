@@ -25,6 +25,7 @@ import {
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 export default function Home() {
   const features = [
@@ -131,13 +132,15 @@ export default function Home() {
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 backdrop-blur-sm text-white border border-white/20">
                     Powered by DocuSign
                   </span>
-                  <img
-                    src="https://www.docusign.com/sites/default/files/docusign_logo_white.svg"
+                  <Image
+                    src="/assets/DocuSign_Logo_1.png"
                     alt="DocuSign"
-                    className="h-6"
+                    className="h-6 items-center"
+                    width={120}
+                    height={120}
                   />
                 </div>
-                <h1 className="text-5xl md:text-6xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-teal-200 animate-gradient">
+                <h1 className="text-5xl md:text-6xl font-bold mb-10 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-teal-200 animate-gradient">
                   Create, Sign & Track Legal Agreements
                 </h1>
                 <p className="text-xl text-white/90 leading-relaxed backdrop-blur-sm">
@@ -186,10 +189,12 @@ export default function Home() {
                     <FileSignature className="h-5 w-5 text-teal-400" />
                     <span className="text-white">Ready for DocuSign</span>
                   </div>
-                  <img
-                    src="https://www.docusign.com/sites/default/files/docusign_logo_white.svg"
+                  <Image
+                    src="/assets/DocuSign_Logo_1.png"
                     alt="DocuSign"
-                    className="h-4"
+                    className="h-6 items-center"
+                    width={120}
+                    height={120}
                   />
                 </div>
               </div>
