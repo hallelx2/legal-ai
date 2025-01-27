@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useCreateAgreement } from "@/hooks/useAgreements";
+import { useSession } from "next-auth/react";
 
 export default function CreateAgreement() {
   const router = useRouter();
@@ -26,6 +27,10 @@ export default function CreateAgreement() {
   const [selectedSignatureLocations, setSelectedSignatureLocations] = useState<
     SignatureLocation[]
   >([]);
+  const { data: session, status } = useSession();
+
+  const userId = session?.user?.id;
+
 
   const handleCreateAgreement = (formData: Record<string, any>) => {
     // If no template is selected, return early
@@ -33,6 +38,7 @@ export default function CreateAgreement() {
 
     // Transform the form data into the backend API structure
     const apiStructure = {
+        userId: userId,
         templateId: selectedTemplate.id,
         sections: selectedTemplate.sections.map((section) => ({
           sectionId: section.id,
