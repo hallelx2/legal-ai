@@ -6,12 +6,12 @@ interface InputProps {
   id: string;
   name: string;
   type?: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   required?: boolean;
   icon?: LucideIcon;
   error?: string;
-  value?: string;
+  value?: string | number;
   // Add onChange handler
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
