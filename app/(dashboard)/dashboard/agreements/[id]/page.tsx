@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  Mail,
   Download,
   Share2,
   ArrowLeft,

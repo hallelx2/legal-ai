@@ -4,25 +4,19 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { getAccessToken } from "@/lib/auth";
 import { useConnection } from "@/components/auth/Connections";
 
 export default function Settings() {
-  const searchParams = useSearchParams();
-  const [code, setCode] = useState<string | null>(searchParams.get("code"));
-  const { data } = useSession();
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const {
-    isLoading: connectionLoading,
-    isDocusignConnected,
-    getTokens,
-  } = useConnection();
+  const searchParams = useSearchParams()
+  const [code, _] = useState<string | null>(searchParams.get('code'));
+  const { data } = useSession()
+  const router = useRouter()
+  const {isLoading:connectionLoading, isDocusignConnected} = useConnection()
+
 
   useEffect(() => {
     if (code) {
@@ -31,7 +25,8 @@ export default function Settings() {
       });
       // set status from here
     }
-  }, [connectionLoading]);
+  }, [connectionLoading, code, data?.user.id])
+
 
   return (
     <div className="space-y-6">

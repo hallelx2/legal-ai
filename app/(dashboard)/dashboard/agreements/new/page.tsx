@@ -27,7 +27,7 @@ export default function CreateAgreement() {
   const [selectedSignatureLocations, setSelectedSignatureLocations] = useState<
     SignatureLocation[]
   >([]);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const userId = session?.user?.id;
 

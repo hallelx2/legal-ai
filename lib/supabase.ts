@@ -17,6 +17,7 @@ export async function uploadFile({ path, file, bucket }: any) {
     // Handle error
   } else {
     // Handle success
+    return data
   }
 }
 

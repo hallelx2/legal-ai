@@ -1,19 +1,12 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Plus,
   FileText,
-  Search,
-  TrendingUp,
-  Clock,
   CheckCircle2,
-  AlertCircle,
   Users,
-  Calendar,
-  BarChart3,
   ArrowRight,
   FileSignature,
   Send,
@@ -127,9 +120,7 @@ export default function Dashboard() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Welcome back!</h1>
-          <p className="mt-1 text-gray-600">
-            Here's what's happening with your agreements
-          </p>
+          <p className="mt-1 text-gray-600">Here&apos;s what&apos;s happening with your agreements</p>
         </div>
         <div className="flex space-x-4">
           <Button
