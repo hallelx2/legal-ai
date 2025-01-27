@@ -169,6 +169,7 @@ export default function Home() {
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-white/20">
                 <Image
                   width={1000}
+                  height={1000}
                   src="https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&q=80"
                   alt="Legal Document Platform"
                   className="rounded-lg shadow-xl mb-4"
@@ -179,7 +180,6 @@ export default function Home() {
                     <span className="text-white">Ready for DocuSign</span>
                   </div>
                   <Image
-                  
                     src="/assets/DocuSign_Logo_1.png"
                     alt="DocuSign"
                     className="h-6 items-center"
@@ -291,6 +291,8 @@ export default function Home() {
                       src={testimonial.image}
                       alt={testimonial.author}
                       className="w-12 h-12 rounded-full"
+                      width={500}
+                      height={500}
                     />
                     <div>
                       <div className="font-medium text-gray-900">{testimonial.author}</div>
