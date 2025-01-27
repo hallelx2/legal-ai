@@ -4,19 +4,9 @@ import React from 'react';
 import Link from 'next/link';
 import {
   FileText,
-  Shield,
-  Clock,
-  Users,
-  Check,
-  Zap,
-  Globe,
-  Award,
   ArrowRight,
   CheckCircle,
-  Scale,
-  Sparkles,
   FileSignature,
-  Lock,
   MessageSquare,
   PenTool,
   Mail,
@@ -24,7 +14,6 @@ import {
 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 
 export default function Home() {
@@ -105,7 +94,6 @@ export default function Home() {
     { value: '180+', label: 'Countries Covered' }
   ];
 
-  const toast = useToast()
 
   return (
     <>
@@ -179,7 +167,8 @@ export default function Home() {
             <div className="relative hidden lg:block">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-teal-500/20 rounded-2xl filter blur-3xl"></div>
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-white/20">
-                <img
+                <Image
+                  width={1000}
                   src="https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&q=80"
                   alt="Legal Document Platform"
                   className="rounded-lg shadow-xl mb-4"
@@ -190,6 +179,7 @@ export default function Home() {
                     <span className="text-white">Ready for DocuSign</span>
                   </div>
                   <Image
+                  
                     src="/assets/DocuSign_Logo_1.png"
                     alt="DocuSign"
                     className="h-6 items-center"
@@ -297,7 +287,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-teal-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
                 <div className="relative">
                   <div className="flex items-center space-x-4 mb-6">
-                    <img
+                    <Image
                       src={testimonial.image}
                       alt={testimonial.author}
                       className="w-12 h-12 rounded-full"

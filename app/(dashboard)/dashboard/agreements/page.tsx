@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
-import { Plus, FileText, Search } from "lucide-react";
+import { Plus, FileText, Search, LoaderPinwheel } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useSession } from "next-auth/react";
@@ -12,25 +12,6 @@ export default function Agreements() {
   const router = useRouter();
   const session = useSession()
   const {data:agreements, isFetching} = useAgreements(session.data?.user.id!)
-  console.log(agreements)
-  const agreement = [
-    {
-      id: "1",
-      title: "Non-Disclosure Agreement",
-      type: "NDA",
-      status: "completed",
-      updatedAt: new Date(),
-      party: "Tech Corp",
-    },
-    {
-      id: "2",
-      title: "Service Agreement",
-      type: "Contract",
-      status: "draft",
-      updatedAt: new Date(),
-      party: "Legal Solutions Inc",
-    },
-  ];
 
   return (
     <div>
@@ -69,8 +50,10 @@ export default function Agreements() {
       </Card>
 
      {
-      isFetching ? "fetching": <div className="grid gap-4">
-      {agreements&& agreements!.map((agreement) => (
+      isFetching ? <LoaderPinwheel />: ""
+     }
+      <div className="grid gap-4">
+      {!isFetching && agreements!.map((agreement) => (
         <Card key={agreement.id}>
           <div className="p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
@@ -108,7 +91,6 @@ export default function Agreements() {
         </Card>
       ))}
     </div>
-     }
     </div>
   );
 }

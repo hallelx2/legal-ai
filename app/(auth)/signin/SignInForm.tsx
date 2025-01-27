@@ -41,7 +41,7 @@ export default function SignInForm() {
         router.push(result?.url || "/dashboard");
         router.refresh();
       }
-    } catch (error) {
+    } catch (_) {
       setError("An unexpected error occurred");
     }
   };
@@ -56,7 +56,7 @@ export default function SignInForm() {
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900">Welcome back</h2>
         <p className="mt-2 text-sm text-gray-600">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link
             href="/signup"
             className="text-[var(--text-blue)] hover:text-indigo-500 font-medium"

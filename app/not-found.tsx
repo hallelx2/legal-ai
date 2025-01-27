@@ -13,7 +13,7 @@ export default function NotFound() {
         Oops! Page Not Found
       </h1>
       <p className="text-xl mb-8 text-center max-w-md">
-        We couldn't find the page you're looking for. Let's get you back on
+        We couldnvt find the page you&apos;re looking for. Let&apos;s get you back on
         track!
       </p>
 

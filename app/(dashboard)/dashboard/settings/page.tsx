@@ -4,9 +4,8 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { getAccessToken } from "@/lib/auth";
 import { useConnection } from "@/components/auth/Connections";
@@ -14,12 +13,10 @@ import { useConnection } from "@/components/auth/Connections";
 
 export default function Settings() {
   const searchParams = useSearchParams()
-  const [code, setCode] = useState<string | null>(searchParams.get('code'));
+  const [code, _] = useState<string | null>(searchParams.get('code'));
   const { data } = useSession()
   const router = useRouter()
-  const pathname = usePathname()
-  const [isLoading, setLoading] = useState<boolean>(false)
-  const {isLoading:connectionLoading, isDocusignConnected, getTokens} = useConnection()
+  const {isLoading:connectionLoading, isDocusignConnected} = useConnection()
 
 
   useEffect(() => {
@@ -30,7 +27,7 @@ export default function Settings() {
       })
       // set status from here
     }
-  }, [connectionLoading])
+  }, [connectionLoading, code, data?.user.id])
 
 
   return (
