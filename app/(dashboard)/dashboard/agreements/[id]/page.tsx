@@ -16,6 +16,8 @@ import {
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { useAgreement } from "@/hooks/useAgreements";
+
 
 export default function AgreementView() {
   const { id } = useParams();
@@ -23,9 +25,11 @@ export default function AgreementView() {
   const [activeTab, setActiveTab] = useState<"preview" | "history" | "details">(
     "preview",
   );
+  const {data:agreement} = useAgreement(id as string)
+  
 
   // Mock data - replace with actual data fetching
-  const agreement = {
+  const agreements = {
     id,
     title: "Non-Disclosure Agreement",
     status: "pending_signature",
@@ -81,7 +85,7 @@ export default function AgreementView() {
         return <Badge>{status}</Badge>;
     }
   };
-
+  if(agreement)
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -169,8 +173,8 @@ export default function AgreementView() {
               <div className="col-span-2">
                 <div className="bg-white border rounded-lg p-8">
                   <div className="prose max-w-none">
-                    <pre className="whitespace-pre-wrap font-sans text-gray-800">
-                      {agreement.content}
+                    <pre dangerouslySetInnerHTML={{__html:agreement.content}} className="whitespace-pre-wrap font-sans text-gray-800">
+                      
                     </pre>
                   </div>
                 </div>
@@ -244,7 +248,7 @@ export default function AgreementView() {
             </div>
           )}
 
-          {activeTab === "history" && (
+          {/* {activeTab === "history" && (
             <div className="space-y-4">
               {agreement.history.map((event, index) => (
                 <div
@@ -262,7 +266,7 @@ export default function AgreementView() {
                 </div>
               ))}
             </div>
-          )}
+          )} */}
 
           {activeTab === "details" && (
             <div className="grid grid-cols-2 gap-6">
