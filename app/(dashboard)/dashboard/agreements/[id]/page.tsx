@@ -45,6 +45,9 @@ export default function AgreementView() {
     router.refresh()
   };
 
+
+
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "completed":

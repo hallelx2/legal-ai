@@ -11,6 +11,7 @@ export enum TemplateCategory {
   TECHNOLOGY = "technology",
   ACADEMIC = "academic",
   MEDIA = "media",
+  LEGAL= "legal"
 }
 
 export interface TemplateVariable {
