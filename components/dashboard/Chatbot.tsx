@@ -3,22 +3,14 @@ import ChatBot from "react-chatbotify";
 import { SendIcon } from "lucide-react";
 import { Flow, Params } from "react-chatbotify";
 import React from "react";
+import { ChatFlow } from "@/lib/chatflow";
 
 function Chatbot() {
-  const flow: Flow = {
-    start: {
-      message: "What is your age?",
-      path: "end",
-    },
-    end: {
-      message: (params: Params) => `I see you are ${params.userInput}!`,
-      chatDisabled: true,
-    },
-  };
+
   return (
     <div>
       <ChatBot
-        flow={flow}
+        flow={ChatFlow}
         styles={{
           tooltipStyle: {
             height: 40,
@@ -34,7 +26,11 @@ function Chatbot() {
             background: "white",
             color: "blue",
           },
-          botBubbleStyle: { height: 100, fontSize: "10" },
+          botBubbleStyle: {
+            fontSize:12,
+            fontWeight:600,
+            lineHeight: 1.1,
+           },
           chatIconStyle: { height: 30 },
           chatButtonStyle: {
             height: 60,
@@ -65,6 +61,15 @@ function Chatbot() {
           sendButtonStyle: {
             background: "white",
           },
+          userBubbleStyle:{
+            fontSize:11,
+            fontWeight:600
+          },
+          botOptionStyle:{
+            fontSize:11,
+            fontWeight:600
+          }
+          
         }}
         settings={{
           general: {
