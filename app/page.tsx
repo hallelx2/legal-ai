@@ -285,145 +285,55 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900">
-                Trusted by Legal Teams
-              </h2>
-              <p className="mt-4 text-xl text-gray-600">
-                See how teams are transforming their legal operations
-              </p>
-            </div>
+<section className="py-20 bg-white">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div className="text-center">
+    <h2 className="text-3xl font-bold text-gray-900">
+      Trusted by Legal Teams
+    </h2>
+    <p className="mt-4 text-xl text-gray-600">
+      See how teams are transforming their legal operations
+    </p>
+  </div>
 
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8"></div>
-          </div>
-        </section>
+  <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+    {testimonials.map((testimonial, index) => (
+      <div
+        key={index}
+        className="bg-white rounded-xl shadow-xl p-8 relative group"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-teal-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
+        <div className="relative">
+          <div className="flex items-center space-x-4 mb-6">
+            <Image
+              src={testimonial.image}
+              alt={testimonial.author}
+              className="w-12 h-12 rounded-full"
+              width={120}
+              height={120}
 
-        {/* Workflow Steps */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900">How It Works</h2>
-              <p className="mt-4 text-xl text-gray-600">
-                Streamlined document workflow from creation to signature
-              </p>
-            </div>
-
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {workflowSteps.map((step, index) => (
-                <div key={index} className="relative">
-                  {index < workflowSteps.length - 1 && (
-                    <div className="hidden lg:block absolute top-1/2 right-0 w-full h-0.5 bg-gradient-to-r from-indigo-500 to-teal-500 transform translate-x-1/2"></div>
-                  )}
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mb-4">
-                      {step.icon}
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-600">{step.description}</p>
-                  </div>
-                </div>
-              ))}
+            />
+            <div>
+              <div className="font-medium text-gray-900">
+                {testimonial.author}
+              </div>
+              <div className="text-gray-600 text-sm">
+                {testimonial.role}
+              </div>
+              <div className="text-gray-600 text-sm">
+                {testimonial.company}
+              </div>
             </div>
           </div>
-        </section>
-
-        {/* Features Section */}
-        <section className="py-20 bg-gradient-to-b from-white to-indigo-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto">
-              <h2 className="text-4xl font-bold text-gray-900">
-                Everything You Need in One Platform
-              </h2>
-              <p className="mt-4 text-xl text-gray-600">
-                Create, customize, sign, and track all your legal agreements
-              </p>
-            </div>
-
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {features.map((feature, index) => (
-                <div key={index} className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-teal-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-                  <div className="relative p-8 bg-white rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
-                    <div className="p-3 bg-indigo-50 rounded-lg inline-block">
-                      {feature.icon}
-                    </div>
-                    <h3 className="mt-4 text-xl font-semibold text-gray-900">
-                      {feature.title}
-                    </h3>
-                    <p className="mt-2 text-gray-600">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-teal-900 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-4xl font-bold">{stat.value}</div>
-                  <div className="mt-2 text-indigo-200">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900">
-                Trusted by Legal Teams
-              </h2>
-              <p className="mt-4 text-xl text-gray-600">
-                See how teams are transforming their legal operations
-              </p>
-            </div>
-
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-xl shadow-xl p-8 relative group"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-teal-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-                  <div className="relative">
-                    <div className="flex items-center space-x-4 mb-6">
-                      <img
-                        src={testimonial.image}
-                        alt={testimonial.author}
-                        className="w-12 h-12 rounded-full"
-                      />
-                      <div>
-                        <div className="font-medium text-gray-900">
-                          {testimonial.author}
-                        </div>
-                        <div className="text-gray-600 text-sm">
-                          {testimonial.role}
-                        </div>
-                        <div className="text-gray-600 text-sm">
-                          {testimonial.company}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 italic">
-                      "{testimonial.quote}"
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
+          <p className="text-gray-600 italic">
+            "{testimonial.quote}"
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+</section>
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-teal-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
