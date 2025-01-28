@@ -241,26 +241,6 @@ export default function AgreementView() {
               </div>
             )}
 
-            {/* {activeTab === "history" && (
-            <div className="space-y-4">
-              {agreement.history.map((event, index) => (
-                <div
-                  key={index}
-                  className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg"
-                >
-                  <Clock className="h-5 w-5 text-gray-400" />
-                  <div className="flex-1">
-                    <p className="text-gray-900 font-medium">{event.action}</p>
-                    <p className="text-sm text-gray-500">by {event.user}</p>
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {event.date.toLocaleString()}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )} */}
-
             {activeTab === "details" && (
               <div className="grid grid-cols-2 gap-6">
                 <Card>

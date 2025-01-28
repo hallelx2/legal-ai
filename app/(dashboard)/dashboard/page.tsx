@@ -21,6 +21,13 @@ export default function Dashboard() {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
+
+
+
+  
+  // Fetch agreements using the hook
+  const { data: agreements, isFetching } = useAgreements(userId as string);
+
   const quickStats = [
     {
       label: "Active Agreements",
