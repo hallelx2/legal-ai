@@ -160,7 +160,7 @@ export default function Home() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                   <Link
-                    href="/demo"
+                    href="https://www.youtube.com/watch?v=CgZsl6cPN5k&feature=youtu.be"
                     className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-white/10 text-white font-semibold backdrop-blur-sm hover:bg-white/20 border border-white/20 transition-all duration-300"
                   >
                     Watch Demo
@@ -285,55 +285,54 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-<section className="py-20 bg-white">
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div className="text-center">
-    <h2 className="text-3xl font-bold text-gray-900">
-      Trusted by Legal Teams
-    </h2>
-    <p className="mt-4 text-xl text-gray-600">
-      See how teams are transforming their legal operations
-    </p>
-  </div>
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-gray-900">
+                Trusted by Legal Teams
+              </h2>
+              <p className="mt-4 text-xl text-gray-600">
+                See how teams are transforming their legal operations
+              </p>
+            </div>
 
-  <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-    {testimonials.map((testimonial, index) => (
-      <div
-        key={index}
-        className="bg-white rounded-xl shadow-xl p-8 relative group"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-teal-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-        <div className="relative">
-          <div className="flex items-center space-x-4 mb-6">
-            <Image
-              src={testimonial.image}
-              alt={testimonial.author}
-              className="w-12 h-12 rounded-full"
-              width={120}
-              height={120}
-
-            />
-            <div>
-              <div className="font-medium text-gray-900">
-                {testimonial.author}
-              </div>
-              <div className="text-gray-600 text-sm">
-                {testimonial.role}
-              </div>
-              <div className="text-gray-600 text-sm">
-                {testimonial.company}
-              </div>
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-xl shadow-xl p-8 relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-teal-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
+                  <div className="relative">
+                    <div className="flex items-center space-x-4 mb-6">
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.author}
+                        className="w-12 h-12 rounded-full"
+                        width={120}
+                        height={120}
+                      />
+                      <div>
+                        <div className="font-medium text-gray-900">
+                          {testimonial.author}
+                        </div>
+                        <div className="text-gray-600 text-sm">
+                          {testimonial.role}
+                        </div>
+                        <div className="text-gray-600 text-sm">
+                          {testimonial.company}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 italic">
+                      "{testimonial.quote}"
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-          <p className="text-gray-600 italic">
-            "{testimonial.quote}"
-          </p>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-</section>
+        </section>
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-teal-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

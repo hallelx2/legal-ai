@@ -1,8 +1,10 @@
 import { Flow, Params } from "react-chatbotify";
-import { GeminiService } from '../services/gemini';
-import { AGREEMENT_TYPES } from '../config/agreements';
+import { GeminiService } from "../services/gemini";
+import { AGREEMENT_TYPES } from "../config/agreements";
 
-const geminiService = new GeminiService(process.env.NEXT_PUBLIC_GEMINI_API_KEY || '');
+const geminiService = new GeminiService(
+  process.env.NEXT_PUBLIC_GEMINI_API_KEY || "",
+);
 
 export const ChatFlow: Flow = {
   start: {
@@ -55,14 +57,14 @@ export const ChatFlow: Flow = {
 
   legalGuide: {
     message: "Which type of agreement would you like to learn about?",
-    options: AGREEMENT_TYPES.map(type => type.name),
+    options: AGREEMENT_TYPES.map((type) => type.name),
     path: "generateAgreementGuidance",
   },
 
   generateAgreementGuidance: {
     message: async (params: Params) => {
       const selectedAgreement = AGREEMENT_TYPES.find(
-        type => type.name === params.userInput
+        (type) => type.name === params.userInput,
       );
 
       if (!selectedAgreement) {
@@ -71,7 +73,8 @@ export const ChatFlow: Flow = {
       }
 
       try {
-        const guidance = await geminiService.getAgreementGuidance(selectedAgreement);
+        const guidance =
+          await geminiService.getAgreementGuidance(selectedAgreement);
         params.goToPath("followUp");
         return `${guidance}\n\nWould you like to know more about specific aspects or start creating this document?`;
       } catch (error) {
@@ -144,7 +147,8 @@ export const ChatFlow: Flow = {
   },
 
   error: {
-    message: "I'm sorry, I couldn't process that request. How else can I help you?",
+    message:
+      "I'm sorry, I couldn't process that request. How else can I help you?",
     path: "start",
     options: ["Return to Main Menu", "Try Again", "Contact Support"],
   },

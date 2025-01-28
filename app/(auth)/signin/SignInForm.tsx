@@ -38,8 +38,14 @@ export default function SignInForm() {
       if (result?.error) {
         setError(result.error);
       } else if (result?.ok) {
+        // First refresh to update auth state
+        router.refresh();
+
+        // Wait a brief moment to ensure the refresh has processed
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        // Then navigate to the dashboard
         router.push(result?.url || "/dashboard");
-        // router.refresh();
       }
     } catch (_) {
       setError("An unexpected error occurred");
