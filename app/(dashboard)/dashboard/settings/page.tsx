@@ -83,7 +83,7 @@ export default function Settings() {
 
     return (
       <Link
-        href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=${process.env.NEXTAUTH_URL}/dashboard/settings`}
+        href={`https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${process.env.NEXT_PUBLIC_LEGAL_INTEGRATION_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/dashboard/settings`}
       >
         <Button variant="docsign">Connect</Button>
       </Link>
