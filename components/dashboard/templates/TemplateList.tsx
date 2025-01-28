@@ -30,6 +30,7 @@ const categoryIcons = {
   [TemplateCategory.TECHNOLOGY]: Cpu,
   [TemplateCategory.ACADEMIC]: GraduationCap,
   [TemplateCategory.MEDIA]: Video,
+  [TemplateCategory.LEGAL]: FileText,
 };
 
 export default function TemplateList({ onSelect }: TemplateListProps) {
