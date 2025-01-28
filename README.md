@@ -1,3 +1,8 @@
+## LEGAL AI
+
+Backend repo at - https://www.github.com/hallelx2/legal-ai-backend
+
+
 ### **Problem Statement**
 
 The process of creating and managing legal agreements has long been a significant challenge, especially for legal practitioners and small businesses. Despite advancements in technology, inefficiencies and barriers still plague these workflows, making it difficult to ensure accuracy, compliance, and seamless execution. Let’s explore the problems in detail:
@@ -555,4 +560,4 @@ The journey of LegalAI doesn’t stop with what has been achieved so far. Our vi
 
 ---
 
-The future of LegalAI is one of constant innovation, making legal processes faster, easier, and more accessible for everyone. 
+The future of LegalAI is one of constant innovation, making legal processes faster, easier, and more accessible for everyone.
