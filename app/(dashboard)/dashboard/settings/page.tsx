@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { getAccessToken } from "@/lib/auth";
 import { useConnection } from "@/components/auth/Connections";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Settings() {
   const searchParams = useSearchParams();
@@ -17,8 +18,10 @@ export default function Settings() {
   const { data } = useSession();
   const router = useRouter();
   const { isLoading: connectionLoading, isDocusignConnected } = useConnection();
-  const [localConnectionState, setLocalConnectionState] = useState(isDocusignConnected);
+  const [localConnectionState, setLocalConnectionState] =
+    useState(isDocusignConnected);
   const [isConnecting, setIsConnecting] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     setLocalConnectionState(isDocusignConnected);
@@ -145,22 +148,44 @@ export default function Settings() {
 
               <div className="flex items-center justify-between py-4 border-b">
                 <div>
-                  <h3 className="font-medium text-gray-900">Adobe Sign</h3>
+                  <h3 className="font-medium text-gray-900">Google Drive</h3>
                   <p className="text-sm text-gray-500">
-                    Connect Adobe Sign for document signing
+                    Connect Google Drive for document storage
                   </p>
                 </div>
-                <Button variant="docsign">Connect</Button>
+                <Button
+                  variant="docsign"
+                  onClick={() =>
+                    toast({
+                      title: "Coming Soon",
+                      description:
+                        "This feature will be available in a future update.",
+                    })
+                  }
+                >
+                  Connect
+                </Button>
               </div>
 
               <div className="flex items-center justify-between py-4">
                 <div>
-                  <h3 className="font-medium text-gray-900">HelloSign</h3>
+                  <h3 className="font-medium text-gray-900">Slack</h3>
                   <p className="text-sm text-gray-500">
-                    Use HelloSign for digital signatures
+                    Conect to Slack for your teams
                   </p>
                 </div>
-                <Button variant="docsign">Connect</Button>
+                <Button
+                  variant="docsign"
+                  onClick={() =>
+                    toast({
+                      title: "Coming Soon",
+                      description:
+                        "This feature will be available in a future update.",
+                    })
+                  }
+                >
+                  Connect
+                </Button>
               </div>
             </div>
           </div>

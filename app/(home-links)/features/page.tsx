@@ -223,7 +223,11 @@ export default function Features() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Powerful Integrations
-              <span><h2 className="text-3xl font-bold text-indigo-900 mb-4">Coming Soon!</h2></span>
+              <span>
+                <h2 className="text-3xl font-bold text-indigo-900 mb-4">
+                  Coming Soon!
+                </h2>
+              </span>
             </h2>
             <p className="text-xl text-gray-600">
               Connect with your favorite tools and streamline your workflow

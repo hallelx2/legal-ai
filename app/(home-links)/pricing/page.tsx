@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useState } from "react";
+import Link from "next/link";
 import {
   Check,
   X,
@@ -11,95 +11,95 @@ import {
   Users,
   Zap,
   Shield,
-  MessageSquare
-} from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+  MessageSquare,
+} from "lucide-react";
+import { Button } from "@/components/ui/Button";
 
 export default function Pricing() {
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('annual');
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">(
+    "annual",
+  );
 
   const plans = [
     {
-      name: 'Starter',
-      description: 'Perfect for small teams and startups',
-      price: billingPeriod === 'monthly' ? 49 : 39,
+      name: "Starter",
+      description: "Perfect for small teams and startups",
+      price: billingPeriod === "monthly" ? 49 : 39,
       features: [
-        'Up to 5 team members',
-        '100 documents per month',
-        'Basic templates',
-        'Email support',
-        'DocuSign integration',
-        'Basic analytics'
+        "Up to 5 team members",
+        "100 documents per month",
+        "Basic templates",
+        "Email support",
+        "DocuSign integration",
+        "Basic analytics",
       ],
       limitations: [
-        'No custom templates',
-        'No API access',
-        'No advanced security',
-        'No custom branding'
-      ]
+        "No custom templates",
+        "No API access",
+        "No advanced security",
+        "No custom branding",
+      ],
     },
     {
-      name: 'Professional',
-      description: 'For growing businesses',
-      price: billingPeriod === 'monthly' ? 99 : 79,
+      name: "Professional",
+      description: "For growing businesses",
+      price: billingPeriod === "monthly" ? 99 : 79,
       popular: true,
       features: [
-        'Up to 20 team members',
-        '500 documents per month',
-        'Custom templates',
-        'Priority support',
-        'Advanced analytics',
-        'API access',
-        'Custom branding',
-        'Audit logs'
+        "Up to 20 team members",
+        "500 documents per month",
+        "Custom templates",
+        "Priority support",
+        "Advanced analytics",
+        "API access",
+        "Custom branding",
+        "Audit logs",
       ],
-      limitations: [
-        'No enterprise security',
-        'No dedicated support'
-      ]
+      limitations: ["No enterprise security", "No dedicated support"],
     },
     {
-      name: 'Enterprise',
-      description: 'For large organizations',
-      price: 'Custom',
+      name: "Enterprise",
+      description: "For large organizations",
+      price: "Custom",
       features: [
-        'Unlimited team members',
-        'Unlimited documents',
-        'Custom templates',
-        'Dedicated support',
-        'Advanced analytics',
-        'API access',
-        'Custom branding',
-        'Audit logs',
-        'Enterprise security',
-        'Custom integrations',
-        'SLA guarantees',
-        'Training sessions'
-      ]
-    }
+        "Unlimited team members",
+        "Unlimited documents",
+        "Custom templates",
+        "Dedicated support",
+        "Advanced analytics",
+        "API access",
+        "Custom branding",
+        "Audit logs",
+        "Enterprise security",
+        "Custom integrations",
+        "SLA guarantees",
+        "Training sessions",
+      ],
+    },
   ];
 
   const features = [
     {
       icon: <FileText className="h-6 w-6 text-indigo-600" />,
-      name: 'Document Management',
-      description: 'Create, edit, and manage all your legal documents in one place'
+      name: "Document Management",
+      description:
+        "Create, edit, and manage all your legal documents in one place",
     },
     {
       icon: <Users className="h-6 w-6 text-indigo-600" />,
-      name: 'Team Collaboration',
-      description: 'Work together seamlessly with role-based access control'
+      name: "Team Collaboration",
+      description: "Work together seamlessly with role-based access control",
     },
     {
       icon: <Zap className="h-6 w-6 text-indigo-600" />,
-      name: 'AI-Powered',
-      description: 'Get intelligent suggestions and automate repetitive tasks'
+      name: "AI-Powered",
+      description: "Get intelligent suggestions and automate repetitive tasks",
     },
     {
       icon: <Shield className="h-6 w-6 text-indigo-600" />,
-      name: 'Enterprise Security',
-      description: 'Bank-grade security with end-to-end encryption'
-    }
+      name: "Enterprise Security",
+      description: "Bank-grade security with end-to-end encryption",
+    },
   ];
 
   return (
@@ -115,33 +115,32 @@ export default function Pricing() {
               Simple, Transparent Pricing
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Choose the perfect plan for your team. All plans include DocuSign integration.
+              Choose the perfect plan for your team. All plans include DocuSign
+              integration.
             </p>
 
             {/* Billing Toggle */}
             <div className="mt-8 inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full p-1">
               <button
-                onClick={() => setBillingPeriod('monthly')}
+                onClick={() => setBillingPeriod("monthly")}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  billingPeriod === 'monthly'
-                    ? 'bg-white text-indigo-600'
-                    : 'text-white hover:bg-white/10'
+                  billingPeriod === "monthly"
+                    ? "bg-white text-indigo-600"
+                    : "text-white hover:bg-white/10"
                 }`}
               >
                 Monthly
               </button>
               <button
-                onClick={() => setBillingPeriod('annual')}
+                onClick={() => setBillingPeriod("annual")}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  billingPeriod === 'annual'
-                    ? 'bg-white text-indigo-600'
-                    : 'text-white hover:bg-white/10'
+                  billingPeriod === "annual"
+                    ? "bg-white text-indigo-600"
+                    : "text-white hover:bg-white/10"
                 }`}
               >
                 Annual
-                <span className="ml-1 text-xs">
-                  (Save 20%)
-                </span>
+                <span className="ml-1 text-xs">(Save 20%)</span>
               </button>
             </div>
           </div>
@@ -159,40 +158,55 @@ export default function Pricing() {
                     Most Popular
                   </div>
                 )}
-                <div className={`h-full bg-white rounded-2xl shadow-xl p-8 ${
-                  plan.popular ? 'border-2 border-indigo-500' : 'border border-gray-200'
-                }`}>
-                  <h3 className="text-2xl font-bold text-gray-900">{plan.name}</h3>
+                <div
+                  className={`h-full bg-white rounded-2xl shadow-xl p-8 ${
+                    plan.popular
+                      ? "border-2 border-indigo-500"
+                      : "border border-gray-200"
+                  }`}
+                >
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    {plan.name}
+                  </h3>
                   <p className="mt-2 text-gray-600">{plan.description}</p>
                   <div className="mt-6">
-                    {typeof plan.price === 'number' ? (
+                    {typeof plan.price === "number" ? (
                       <div className="flex items-baseline">
-                        <span className="text-4xl font-bold text-gray-900">${plan.price}</span>
+                        <span className="text-4xl font-bold text-gray-900">
+                          ${plan.price}
+                        </span>
                         <span className="ml-2 text-gray-600">/ month</span>
                       </div>
                     ) : (
-                      <div className="text-4xl font-bold text-gray-900">Contact Us</div>
+                      <div className="text-4xl font-bold text-gray-900">
+                        Contact Us
+                      </div>
                     )}
-                    {billingPeriod === 'annual' && typeof plan.price === 'number' && (
-                      <p className="mt-1 text-sm text-green-600">
-                        Save ${(plan.price * 0.2 * 12).toFixed(0)} annually
-                      </p>
-                    )}
+                    {billingPeriod === "annual" &&
+                      typeof plan.price === "number" && (
+                        <p className="mt-1 text-sm text-green-600">
+                          Save ${(plan.price * 0.2 * 12).toFixed(0)} annually
+                        </p>
+                      )}
                   </div>
 
                   <div className="mt-8">
                     <Button
-                      to={plan.name === 'Enterprise' ? '/contact' : '/signup'}
-                      variant={plan.popular ? 'gradient' : 'secondary'}
+                      to={plan.name === "Enterprise" ? "/contact" : "/signup"}
+                      variant={plan.popular ? "gradient" : "secondary"}
                       className="w-full"
                     >
-                      {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
+                      {plan.name === "Enterprise"
+                        ? "Contact Sales"
+                        : "Get Started"}
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </div>
 
                   <div className="mt-8">
-                    <h4 className="text-sm font-medium text-gray-900 mb-4">What's included:</h4>
+                    <h4 className="text-sm font-medium text-gray-900 mb-4">
+                      What's included:
+                    </h4>
                     <ul className="space-y-3">
                       {plan.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start">
@@ -236,9 +250,7 @@ export default function Pricing() {
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
                   {feature.name}
                 </h3>
-                <p className="text-gray-600">
-                  {feature.description}
-                </p>
+                <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -263,7 +275,8 @@ export default function Pricing() {
                 Can I change plans later?
               </h3>
               <p className="text-gray-600">
-                Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.
+                Yes, you can upgrade or downgrade your plan at any time. Changes
+                take effect immediately.
               </p>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
@@ -271,7 +284,8 @@ export default function Pricing() {
                 What payment methods do you accept?
               </h3>
               <p className="text-gray-600">
-                We accept all major credit cards, PayPal, and bank transfers for Enterprise plans.
+                We accept all major credit cards, PayPal, and bank transfers for
+                Enterprise plans.
               </p>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
@@ -279,7 +293,8 @@ export default function Pricing() {
                 Do you offer a free trial?
               </h3>
               <p className="text-gray-600">
-                Yes, all plans come with a 14-day free trial. No credit card required.
+                Yes, all plans come with a 14-day free trial. No credit card
+                required.
               </p>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
@@ -287,7 +302,8 @@ export default function Pricing() {
                 What's included in the Enterprise plan?
               </h3>
               <p className="text-gray-600">
-                Enterprise plans include custom features, dedicated support, and enterprise-grade security. Contact us for details.
+                Enterprise plans include custom features, dedicated support, and
+                enterprise-grade security. Contact us for details.
               </p>
             </div>
           </div>

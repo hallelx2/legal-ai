@@ -19,10 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={notoSans.className}>
       <body>
-        <Header/>
-         {children}
+        <Header />
+        {children}
       </body>
-      <Footer/>
+      <Footer />
     </html>
   );
 }

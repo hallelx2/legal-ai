@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Mail,
   Phone,
@@ -8,32 +8,32 @@ import {
   MessageSquare,
   Clock,
   Globe,
-  Send
-} from 'lucide-react';
+  Send,
+} from "lucide-react";
 
 export default function Contact() {
   const offices = [
     {
-      city: 'San Francisco',
-      address: '100 Market Street, Suite 300',
-      phone: '+1 (555) 123-4567',
-      email: 'sf@legalai.com'
+      city: "San Francisco",
+      address: "100 Market Street, Suite 300",
+      phone: "+1 (555) 123-4567",
+      email: "sf@legalai.com",
     },
     {
-      city: 'London',
-      address: '25 Old Broad Street',
-      phone: '+44 20 7123 4567',
-      email: 'london@legalai.com'
+      city: "London",
+      address: "25 Old Broad Street",
+      phone: "+44 20 7123 4567",
+      email: "london@legalai.com",
     },
     {
-      city: 'Singapore',
-      address: '1 Raffles Place',
-      phone: '+65 6789 0123',
-      email: 'singapore@legalai.com'
-    }
+      city: "Singapore",
+      address: "1 Raffles Place",
+      phone: "+65 6789 0123",
+      email: "singapore@legalai.com",
+    },
   ];
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     // Handle form submission
   };
@@ -62,11 +62,16 @@ export default function Contact() {
             {/* Contact Form */}
             <div>
               <div className="bg-white rounded-2xl shadow-xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a message</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Send us a message
+                </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label
+                        htmlFor="firstName"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
                         First Name
                       </label>
                       <input
@@ -79,7 +84,10 @@ export default function Contact() {
                       />
                     </div>
                     <div>
-                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label
+                        htmlFor="lastName"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
                         Last Name
                       </label>
                       <input
@@ -94,7 +102,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Email Address
                     </label>
                     <div className="relative">
@@ -111,7 +122,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Phone Number
                     </label>
                     <div className="relative">
@@ -127,7 +141,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Message
                     </label>
                     <textarea
@@ -154,15 +171,21 @@ export default function Contact() {
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Contact Information
+                </h2>
                 <div className="space-y-4">
                   <div className="flex items-start space-x-4">
                     <div className="p-2 bg-nidigo-50 rounded-lg">
                       <MessageSquare className="h-6 w-6 text-indigo-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Chat with Us</h3>
-                      <p className="text-gray-600">Our team is available 24/7</p>
+                      <h3 className="font-semibold text-gray-900">
+                        Chat with Us
+                      </h3>
+                      <p className="text-gray-600">
+                        Our team is available 24/7
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -170,7 +193,9 @@ export default function Contact() {
                       <Mail className="h-6 w-6 text-indigo-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Email Support</h3>
+                      <h3 className="font-semibold text-gray-900">
+                        Email Support
+                      </h3>
                       <p className="text-gray-600">support@legalai.com</p>
                     </div>
                   </div>
@@ -179,8 +204,12 @@ export default function Contact() {
                       <Clock className="h-6 w-6 text-indigo-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Business Hours</h3>
-                      <p className="text-gray-600">Monday - Friday: 9am - 6pm</p>
+                      <h3 className="font-semibold text-gray-900">
+                        Business Hours
+                      </h3>
+                      <p className="text-gray-600">
+                        Monday - Friday: 9am - 6pm
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -188,23 +217,36 @@ export default function Contact() {
                       <Globe className="h-6 w-6 text-indigo-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Global Support</h3>
-                      <p className="text-gray-600">Support in multiple languages</p>
+                      <h3 className="font-semibold text-gray-900">
+                        Global Support
+                      </h3>
+                      <p className="text-gray-600">
+                        Support in multiple languages
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Our Offices</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Our Offices
+                </h2>
                 <div className="grid gap-6">
                   {offices.map((office, index) => (
-                    <div key={index} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">{office.city}</h3>
+                    <div
+                      key={index}
+                      className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+                    >
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                        {office.city}
+                      </h3>
                       <div className="space-y-3">
                         <div className="flex items-start space-x-3">
                           <MapPin className="h-5 w-5 text-gray-400 mt-1" />
-                          <span className="text-gray-600">{office.address}</span>
+                          <span className="text-gray-600">
+                            {office.address}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-3">
                           <Phone className="h-5 w-5 text-gray-400" />
@@ -270,7 +312,9 @@ export default function Contact() {
                 What are your support hours?
               </h3>
               <p className="text-gray-600">
-                Our support team is available 24/7 via chat. Email support is monitored during business hours (9am-6pm) in all major time zones.
+                Our support team is available 24/7 via chat. Email support is
+                monitored during business hours (9am-6pm) in all major time
+                zones.
               </p>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
@@ -278,7 +322,8 @@ export default function Contact() {
                 How quickly can I expect a response?
               </h3>
               <p className="text-gray-600">
-                We aim to respond to all inquiries within 1 hour during business hours, and within 4 hours outside of business hours.
+                We aim to respond to all inquiries within 1 hour during business
+                hours, and within 4 hours outside of business hours.
               </p>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
@@ -286,7 +331,8 @@ export default function Contact() {
                 Do you offer phone support?
               </h3>
               <p className="text-gray-600">
-                Phone support is available for Enterprise customers. All customers can schedule video calls with our support team.
+                Phone support is available for Enterprise customers. All
+                customers can schedule video calls with our support team.
               </p>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
@@ -294,7 +340,8 @@ export default function Contact() {
                 Can I request a demo?
               </h3>
               <p className="text-gray-600">
-                Yes! You can schedule a personalized demo with our team to see how our platform can help your organization.
+                Yes! You can schedule a personalized demo with our team to see
+                how our platform can help your organization.
               </p>
             </div>
           </div>

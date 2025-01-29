@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -52,10 +52,7 @@ export default function Header() {
 
           {/* Desktop authentication buttons - hidden on mobile */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              href="/signin"
-              className="text-gray-600 hover:text-gray-900"
-            >
+            <Link href="/signin" className="text-gray-600 hover:text-gray-900">
               Sign In
             </Link>
             <Link

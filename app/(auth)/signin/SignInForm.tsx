@@ -42,7 +42,7 @@ export default function SignInForm() {
         router.refresh();
 
         // Wait a brief moment to ensure the refresh has processed
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
         // Then navigate to the dashboard
         router.push(result?.url || "/dashboard");

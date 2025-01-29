@@ -55,10 +55,7 @@ export default function RootLayout({
         <meta name="keywords" content={metadata.keywords.join(", ")} />
         <meta name="author" content={metadata.author} />
         <meta name="robots" content={metadata.robots} />
-        <meta
-          property="og:title"
-          content={metadata.openGraph.title}
-        />
+        <meta property="og:title" content={metadata.openGraph.title} />
         <meta
           property="og:description"
           content={metadata.openGraph.description}
@@ -66,11 +63,7 @@ export default function RootLayout({
         <meta property="og:url" content={metadata.openGraph.url} />
         <meta property="og:type" content={metadata.openGraph.type} />
         {metadata.openGraph.images.map((image, index) => (
-          <meta
-            key={index}
-            property="og:image"
-            content={image.url}
-          />
+          <meta key={index} property="og:image" content={image.url} />
         ))}
       </head>
       <body>
